@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
         bottomNavigationBar: FluidNavBar(
           icons: [
             FluidNavBarIcon(
-                icon: Ionicons.newspaper,
+                icon: Ionicons.newspaper_outline,
                 backgroundColor: Colors.green,
                 extras: {"label": "news"}),
             FluidNavBarIcon(
@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 backgroundColor: Colors.green,
                 extras: {"label": "home"}),
             FluidNavBarIcon(
-                icon: Ionicons.help_circle,
+                icon: Ionicons.help_outline,
                 backgroundColor: Colors.green,
                 extras: {"label": "help"}),
           ],
