@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'provider/crypto_provider.dart';
 
-class MarketPrediction extends StatefulWidget {
-  const MarketPrediction({Key? key}) : super(key: key);
+class Main extends StatefulWidget {
+  const Main({Key? key}) : super(key: key);
 
   @override
-  State<MarketPrediction> createState() => _MarketPredictionState();
+  State<Main> createState() => _MainState();
 }
 
-class _MarketPredictionState extends State<MarketPrediction> {
+class _MainState extends State<Main> {
   @override
   void initState() {
     super.initState();
@@ -129,12 +131,13 @@ class _MarketPredictionState extends State<MarketPrediction> {
             decoration: const BoxDecoration(color: Colors.green),
           ),
           Container(
+            padding: const EdgeInsets.all(8),
+            height: 390,
+            child: ListView(
               padding: const EdgeInsets.all(8),
-              height: 390,
-              child: ListView(
-                padding: const EdgeInsets.all(8),
-                children: <Widget>[
-                  Container(
+              children: <Widget>[
+                Container(
+                  child: ElevatedButton(
                     child: Row(
                       children: [
                         Container(
@@ -142,19 +145,33 @@ class _MarketPredictionState extends State<MarketPrediction> {
                           child: Image.network(
                               'https://cryptoicons.org/api/color/btc/50'),
                         ),
+                        const Text(
+                          "BTC",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
                       ],
                     ),
-                    margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
+                    onPressed: () {
+                      Provider.of<CryptoProvider>(context, listen: false)
+                          .getCryptoData("BTC");
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: Colors.grey),
+                        ),
                       ),
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      foregroundColor: MaterialStateProperty.all(Colors.black),
+                      padding: MaterialStateProperty.all(EdgeInsets.all(0)),
                     ),
-                    height: 80,
                   ),
-                  Container(
+                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  height: 80,
+                ),
+                Container(
+                  child: ElevatedButton(
                     child: Row(
                       children: [
                         Container(
@@ -162,19 +179,33 @@ class _MarketPredictionState extends State<MarketPrediction> {
                           child: Image.network(
                               'https://cryptoicons.org/api/color/eth/50'),
                         ),
+                        const Text(
+                          "ETH",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
                       ],
                     ),
-                    margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
+                    onPressed: () {
+                      Provider.of<CryptoProvider>(context, listen: false)
+                          .getCryptoData("ETH");
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: Colors.grey),
+                        ),
                       ),
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      foregroundColor: MaterialStateProperty.all(Colors.black),
+                      padding: MaterialStateProperty.all(EdgeInsets.all(0)),
                     ),
-                    height: 80,
                   ),
-                  Container(
+                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  height: 80,
+                ),
+                Container(
+                  child: ElevatedButton(
                     child: Row(
                       children: [
                         Container(
@@ -182,19 +213,33 @@ class _MarketPredictionState extends State<MarketPrediction> {
                           child: Image.network(
                               'https://cryptoicons.org/api/color/xrp/50'),
                         ),
+                        const Text(
+                          "XRP",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
                       ],
                     ),
-                    margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
+                    onPressed: () {
+                      Provider.of<CryptoProvider>(context, listen: false)
+                          .getCryptoData("XRP");
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: Colors.grey),
+                        ),
                       ),
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      foregroundColor: MaterialStateProperty.all(Colors.black),
+                      padding: MaterialStateProperty.all(EdgeInsets.all(0)),
                     ),
-                    height: 80,
                   ),
-                  Container(
+                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  height: 80,
+                ),
+                Container(
+                  child: ElevatedButton(
                     child: Row(
                       children: [
                         Container(
@@ -202,19 +247,33 @@ class _MarketPredictionState extends State<MarketPrediction> {
                           child: Image.network(
                               'https://cryptoicons.org/api/color/ada/50'),
                         ),
+                        const Text(
+                          "ADA",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
                       ],
                     ),
-                    margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
+                    onPressed: () {
+                      Provider.of<CryptoProvider>(context, listen: false)
+                          .getCryptoData("ETH");
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: Colors.grey),
+                        ),
                       ),
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      foregroundColor: MaterialStateProperty.all(Colors.black),
+                      padding: MaterialStateProperty.all(EdgeInsets.all(0)),
                     ),
-                    height: 80,
                   ),
-                  Container(
+                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  height: 80,
+                ),
+                Container(
+                  child: ElevatedButton(
                     child: Row(
                       children: [
                         Container(
@@ -222,20 +281,34 @@ class _MarketPredictionState extends State<MarketPrediction> {
                           child: Image.network(
                               'https://cryptoicons.org/api/color/bnb/50'),
                         ),
+                        const Text(
+                          "BNB",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
                       ],
                     ),
-                    margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
+                    onPressed: () {
+                      Provider.of<CryptoProvider>(context, listen: false)
+                          .getCryptoData("ETH");
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: Colors.grey),
+                        ),
                       ),
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      foregroundColor: MaterialStateProperty.all(Colors.black),
+                      padding: MaterialStateProperty.all(EdgeInsets.all(0)),
                     ),
-                    height: 80,
                   ),
-                ],
-              )),
+                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  height: 80,
+                ),
+              ],
+            ),
+          ),
         ],
         mainAxisAlignment: MainAxisAlignment.start,
       ),
