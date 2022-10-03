@@ -255,7 +255,7 @@ class _MainState extends State<Main> {
                     ),
                     onPressed: () {
                       Provider.of<CryptoProvider>(context, listen: false)
-                          .getCryptoData("ETH");
+                          .getCryptoData("ADA");
                     },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(
@@ -289,7 +289,7 @@ class _MainState extends State<Main> {
                     ),
                     onPressed: () {
                       Provider.of<CryptoProvider>(context, listen: false)
-                          .getCryptoData("ETH");
+                          .getCryptoData("BNB");
                     },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(
