@@ -1,3 +1,4 @@
+import 'package:cryptoingfontend/market.dart';
 import 'package:cryptoingfontend/news_page.dart';
 import 'package:cryptoingfontend/provider/crypto_provider.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
             _child = const Main();
             break;
           case 2:
-            _child = const Main();
+            _child = LineChartSample1();
             break;
         }
         _child = AnimatedSwitcher(

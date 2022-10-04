@@ -17,6 +17,17 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
+    ButtonStyle buttonstyle = ButtonStyle(
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+          side: BorderSide(color: Colors.grey),
+        ),
+      ),
+      backgroundColor: MaterialStateProperty.all(Colors.white),
+      foregroundColor: MaterialStateProperty.all(Colors.black),
+      padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+    );
     return Container(
       child: Column(
         children: [
@@ -155,17 +166,7 @@ class _MainState extends State<Main> {
                       Provider.of<CryptoProvider>(context, listen: false)
                           .getCryptoData("BTC");
                     },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
-                      foregroundColor: MaterialStateProperty.all(Colors.black),
-                      padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-                    ),
+                    style: buttonstyle,
                   ),
                   margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                   height: 80,
@@ -189,17 +190,7 @@ class _MainState extends State<Main> {
                       Provider.of<CryptoProvider>(context, listen: false)
                           .getCryptoData("ETH");
                     },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
-                      foregroundColor: MaterialStateProperty.all(Colors.black),
-                      padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-                    ),
+                    style: buttonstyle,
                   ),
                   margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                   height: 80,
@@ -223,17 +214,7 @@ class _MainState extends State<Main> {
                       Provider.of<CryptoProvider>(context, listen: false)
                           .getCryptoData("XRP");
                     },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
-                      foregroundColor: MaterialStateProperty.all(Colors.black),
-                      padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-                    ),
+                    style: buttonstyle,
                   ),
                   margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                   height: 80,
@@ -257,17 +238,7 @@ class _MainState extends State<Main> {
                       Provider.of<CryptoProvider>(context, listen: false)
                           .getCryptoData("ADA");
                     },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
-                      foregroundColor: MaterialStateProperty.all(Colors.black),
-                      padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-                    ),
+                    style: buttonstyle,
                   ),
                   margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                   height: 80,
@@ -291,17 +262,7 @@ class _MainState extends State<Main> {
                       Provider.of<CryptoProvider>(context, listen: false)
                           .getCryptoData("BNB");
                     },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
-                      foregroundColor: MaterialStateProperty.all(Colors.black),
-                      padding: MaterialStateProperty.all(EdgeInsets.all(0)),
-                    ),
+                    style: buttonstyle,
                   ),
                   margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                   height: 80,
