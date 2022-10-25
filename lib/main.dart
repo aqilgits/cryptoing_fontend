@@ -1,11 +1,11 @@
 import 'package:cryptoingfontend/market.dart';
 import 'package:cryptoingfontend/news_page.dart';
-import 'package:cryptoingfontend/provider/crypto_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptoingfontend/sub_main.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
+import 'controller/crypto_controller.dart';
 
 void main() {
   runApp(const MyHomePage());
@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        value: CryptoProvider(),
+        value: CryptoController(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',

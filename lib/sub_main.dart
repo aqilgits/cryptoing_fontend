@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'provider/crypto_provider.dart';
+import 'controller/crypto_controller.dart';
 
 class Main extends StatefulWidget {
   const Main({Key? key}) : super(key: key);
@@ -153,8 +153,10 @@ class _MainState extends State<Main> {
                       children: [
                         Container(
                           padding: EdgeInsets.all(10),
-                          child: Image.network(
-                              'https://cryptoicons.org/api/color/btc/50'),
+                          child: Image.asset(
+                            'assets/images/btc.png',
+                            height: 50,
+                          ),
                         ),
                         const Text(
                           "BTC",
@@ -163,8 +165,7 @@ class _MainState extends State<Main> {
                       ],
                     ),
                     onPressed: () {
-                      Provider.of<CryptoProvider>(context, listen: false)
-                          .getCryptoData("BTC");
+                      CryptoController().getCryptoData('BTC');
                     },
                     style: buttonstyle,
                   ),
@@ -177,8 +178,10 @@ class _MainState extends State<Main> {
                       children: [
                         Container(
                           padding: EdgeInsets.all(10),
-                          child: Image.network(
-                              'https://cryptoicons.org/api/color/eth/50'),
+                          child: Image.asset(
+                            'assets/images/eth.png',
+                            height: 50,
+                          ),
                         ),
                         const Text(
                           "ETH",
@@ -187,8 +190,7 @@ class _MainState extends State<Main> {
                       ],
                     ),
                     onPressed: () {
-                      Provider.of<CryptoProvider>(context, listen: false)
-                          .getCryptoData("ETH");
+                      CryptoController().getCryptoData('ETH');
                     },
                     style: buttonstyle,
                   ),
@@ -201,8 +203,10 @@ class _MainState extends State<Main> {
                       children: [
                         Container(
                           padding: EdgeInsets.all(10),
-                          child: Image.network(
-                              'https://cryptoicons.org/api/color/xrp/50'),
+                          child: Image.asset(
+                            'assets/images/xrp.png',
+                            height: 50,
+                          ),
                         ),
                         const Text(
                           "XRP",
@@ -211,8 +215,7 @@ class _MainState extends State<Main> {
                       ],
                     ),
                     onPressed: () {
-                      Provider.of<CryptoProvider>(context, listen: false)
-                          .getCryptoData("XRP");
+                      CryptoController().getCryptoData('XRP');
                     },
                     style: buttonstyle,
                   ),
@@ -225,8 +228,10 @@ class _MainState extends State<Main> {
                       children: [
                         Container(
                           padding: EdgeInsets.all(10),
-                          child: Image.network(
-                              'https://cryptoicons.org/api/color/ada/50'),
+                          child: Image.asset(
+                            'assets/images/ada.png',
+                            height: 50,
+                          ),
                         ),
                         const Text(
                           "ADA",
@@ -235,8 +240,7 @@ class _MainState extends State<Main> {
                       ],
                     ),
                     onPressed: () {
-                      Provider.of<CryptoProvider>(context, listen: false)
-                          .getCryptoData("ADA");
+                      CryptoController().getCryptoData('ADA');
                     },
                     style: buttonstyle,
                   ),
@@ -249,18 +253,19 @@ class _MainState extends State<Main> {
                       children: [
                         Container(
                           padding: EdgeInsets.all(10),
-                          child: Image.network(
-                              'https://cryptoicons.org/api/color/bnb/50'),
+                          child: Image.asset(
+                            'assets/images/doge.png',
+                            height: 50,
+                          ),
                         ),
                         const Text(
-                          "BNB",
+                          "DOGE",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
                     onPressed: () {
-                      Provider.of<CryptoProvider>(context, listen: false)
-                          .getCryptoData("BNB");
+                      CryptoController().getCryptoData('DOGE');
                     },
                     style: buttonstyle,
                   ),

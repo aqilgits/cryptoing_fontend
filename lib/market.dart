@@ -1,11 +1,9 @@
-import 'package:cryptoingfontend/provider/crypto_provider.dart';
+import 'package:cryptoingfontend/controller/crypto_controller.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class _LineChart extends StatelessWidget {
-  const _LineChart({required this.isShowingMainData});
-
+  _LineChart({required this.isShowingMainData});
   final bool isShowingMainData;
 
   @override
@@ -318,7 +316,7 @@ class _LineChart extends StatelessWidget {
           top: BorderSide(color: Colors.transparent),
         ),
       );
-
+  List<double> i = [1];
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
         isCurved: true,
         color: const Color(0xff4af699),
@@ -326,8 +324,8 @@ class _LineChart extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 1),
+        spots: [
+          FlSpot(i[0], 1),
           FlSpot(3, 1.5),
           FlSpot(5, 1.4),
           FlSpot(7, 3.4),
@@ -439,7 +437,7 @@ class LineChartSample1 extends StatefulWidget {
 
 class LineChartSample1State extends State<LineChartSample1> {
   late bool isShowingMainData;
-
+  List predictionPrice = [];
   @override
   void initState() {
     super.initState();
@@ -500,43 +498,43 @@ class LineChartSample1State extends State<LineChartSample1> {
             ),
           ),
         ),
-        FutureBuilder(
-          future: Provider.of<CryptoProvider>(context, listen: false)
-              .getCryptoData('BTC'),
-          builder: (ctx, snapshot) => snapshot.connectionState ==
-                  ConnectionState.waiting
-              ? Center(child: CircularProgressIndicator())
-              : Consumer<CryptoProvider>(
-                  child: Center(
-                    heightFactor: MediaQuery.of(context).size.height * 0.03,
-                    child: const Text(
-                      'You have no tasks.',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  builder: (ctx, cryptoProvider, child) => cryptoProvider
-                          .items.isEmpty
-                      ? child as Widget
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.6,
-                            child: ListView.builder(
-                              itemCount: cryptoProvider.items.length,
-                              itemBuilder: (ctx, i) => Padding(
-                                padding: const EdgeInsets.only(bottom: 10.0),
-                                child: ListTile(
-                                  tileColor: Colors.black12,
-                                  title: Text(
-                                      (cryptoProvider.items[i].predictionPrice)
-                                          .toString()),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                ),
-        )
+        // FutureBuilder(
+        //   future: Provider.of<CryptoProvider>(context, listen: false)
+        //       .getCryptoData('BTC'),
+        //   builder: (ctx, snapshot) => snapshot.connectionState ==
+        //           ConnectionState.waiting
+        //       ? Center(child: CircularProgressIndicator())
+        //       : Consumer<CryptoProvider>(
+        //           child: Center(
+        //             heightFactor: MediaQuery.of(context).size.height * 0.03,
+        //             child: const Text(
+        //               'You have no tasks.',
+        //               style: TextStyle(fontSize: 18),
+        //             ),
+        //           ),
+        //           builder: (ctx, cryptoProvider, child) => cryptoProvider
+        //                   .items.isEmpty
+        //               ? child as Widget
+        //               : Padding(
+        //                   padding: const EdgeInsets.only(top: 20),
+        //                   child: Container(
+        //                     height: MediaQuery.of(context).size.height * 0.6,
+        //                     child: ListView.builder(
+        //                       itemCount: cryptoProvider.items.length,
+        //                       itemBuilder: (ctx, i) => Padding(
+        //                         padding: const EdgeInsets.only(bottom: 10.0),
+        //                         child: ListTile(
+        //                           tileColor: Colors.black12,
+        //                           title: Text(
+        //                               (cryptoProvider.items[i].predictionPrice)
+        //                                   .toString()),
+        //                         ),
+        //                       ),
+        //                     ),
+        //                   ),
+        //                 ),
+        //         ),
+        // )
       ],
     );
   }
