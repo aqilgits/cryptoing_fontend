@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'controller/crypto_controller.dart';
 
 class Main extends StatefulWidget {
@@ -10,6 +10,7 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
+  List price = [];
   @override
   void initState() {
     super.initState();
@@ -165,7 +166,7 @@ class _MainState extends State<Main> {
                       ],
                     ),
                     onPressed: () {
-                      CryptoController().getCryptoData('BTC');
+                      CryptoController().getCryptoPrice('BTC');
                     },
                     style: buttonstyle,
                   ),
@@ -190,7 +191,7 @@ class _MainState extends State<Main> {
                       ],
                     ),
                     onPressed: () {
-                      CryptoController().getCryptoData('ETH');
+                      CryptoController().getCryptoPrice('ETH');
                     },
                     style: buttonstyle,
                   ),
@@ -215,7 +216,7 @@ class _MainState extends State<Main> {
                       ],
                     ),
                     onPressed: () {
-                      CryptoController().getCryptoData('XRP');
+                      CryptoController().getCryptoPrice('XRP');
                     },
                     style: buttonstyle,
                   ),
@@ -240,7 +241,7 @@ class _MainState extends State<Main> {
                       ],
                     ),
                     onPressed: () {
-                      CryptoController().getCryptoData('ADA');
+                      CryptoController().getCryptoPrice('ADA');
                     },
                     style: buttonstyle,
                   ),
@@ -264,8 +265,9 @@ class _MainState extends State<Main> {
                         )
                       ],
                     ),
-                    onPressed: () {
-                      CryptoController().getCryptoData('DOGE');
+                    onPressed: () async {
+                      price = await CryptoController().getCryptoPrice('DOGE');
+                      print(price[0]);
                     },
                     style: buttonstyle,
                   ),

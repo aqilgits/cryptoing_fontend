@@ -5,6 +5,11 @@ import 'package:flutter/material.dart';
 class _LineChart extends StatelessWidget {
   _LineChart({required this.isShowingMainData});
   final bool isShowingMainData;
+  List price = [1, 2, 3, 4, 5];
+  Future<List> priceData() async {
+    price = await CryptoController().getCryptoPrice('DOGE');
+    return price;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +18,8 @@ class _LineChart extends StatelessWidget {
       swapAnimationDuration: const Duration(milliseconds: 250),
     );
   }
+
+  Future<List> CryptoPrice = CryptoController().getCryptoPrice('DOGE');
 
   LineChartData get sampleData1 => LineChartData(
         lineTouchData: lineTouchData1,
@@ -316,7 +323,7 @@ class _LineChart extends StatelessWidget {
           top: BorderSide(color: Colors.transparent),
         ),
       );
-  List<double> i = [1];
+
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
         isCurved: true,
         color: const Color(0xff4af699),
@@ -325,13 +332,13 @@ class _LineChart extends StatelessWidget {
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: [
-          FlSpot(i[0], 1),
-          FlSpot(3, 1.5),
-          FlSpot(5, 1.4),
-          FlSpot(7, 3.4),
-          FlSpot(10, 2),
-          FlSpot(12, 2.2),
-          FlSpot(13, 1.8),
+          // FlSpot(CryptoPrice, 1),
+          FlSpot(price[1], 1.5),
+          FlSpot(price[2], 1.4),
+          FlSpot(price[3], 3.4),
+          FlSpot(price[4], 2),
+          FlSpot(price[5], 2.2),
+          FlSpot(price[6], 1.8),
         ],
       );
 
@@ -498,43 +505,6 @@ class LineChartSample1State extends State<LineChartSample1> {
             ),
           ),
         ),
-        // FutureBuilder(
-        //   future: Provider.of<CryptoProvider>(context, listen: false)
-        //       .getCryptoData('BTC'),
-        //   builder: (ctx, snapshot) => snapshot.connectionState ==
-        //           ConnectionState.waiting
-        //       ? Center(child: CircularProgressIndicator())
-        //       : Consumer<CryptoProvider>(
-        //           child: Center(
-        //             heightFactor: MediaQuery.of(context).size.height * 0.03,
-        //             child: const Text(
-        //               'You have no tasks.',
-        //               style: TextStyle(fontSize: 18),
-        //             ),
-        //           ),
-        //           builder: (ctx, cryptoProvider, child) => cryptoProvider
-        //                   .items.isEmpty
-        //               ? child as Widget
-        //               : Padding(
-        //                   padding: const EdgeInsets.only(top: 20),
-        //                   child: Container(
-        //                     height: MediaQuery.of(context).size.height * 0.6,
-        //                     child: ListView.builder(
-        //                       itemCount: cryptoProvider.items.length,
-        //                       itemBuilder: (ctx, i) => Padding(
-        //                         padding: const EdgeInsets.only(bottom: 10.0),
-        //                         child: ListTile(
-        //                           tileColor: Colors.black12,
-        //                           title: Text(
-        //                               (cryptoProvider.items[i].predictionPrice)
-        //                                   .toString()),
-        //                         ),
-        //                       ),
-        //                     ),
-        //                   ),
-        //                 ),
-        //         ),
-        // )
       ],
     );
   }
