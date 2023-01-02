@@ -25,8 +25,8 @@ class _NewsState extends State<News> {
 
   @override
   void initState() {
-    getData(); //fetching data
-    getData2();
+    // getData2();
+    getData();
     super.initState();
   }
 
@@ -39,66 +39,71 @@ class _NewsState extends State<News> {
 
     Response response = await dio.get(url);
     apidata = response.data; //get JSON decoded data from response
-    loading = false;
-    setState(() {});
-  }
-
-  getData2() async {
-    setState(() {
-      loading = true;
-    });
 
     String url2 = "http://10.0.2.2:5000/news/percentage";
 
     Response response2 = await dio.get(url2);
     apidata2 = response2.data; //get JSON decoded data from response
+
     loading = false;
     setState(() {});
   }
 
+  // getData2() async {
+  //   setState(() {
+  //     loading = true;
+  //   });
+
+  //   String url2 = "http://10.0.2.2:5000/news/percentage";
+
+  //   Response response2 = await dio.get(url2);
+  //   apidata2 = response2.data; //get JSON decoded data from response
+  //   loading = false;
+  //   setState(() {});
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.width * 1.65,
-      child: Column(
-        children: [
-          Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * .6,
-              height: 70,
-              child: Image.asset(
-                'assets/images/logo.png',
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 30,
-            child: const Center(
-              child: Text(
-                'News',
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-            ),
-            decoration: const BoxDecoration(color: Colors.green),
-          ),
-          Container(
-            height: 30,
-            alignment: Alignment.center,
-            // padding: EdgeInsets.all(20),
-            child: loading
-                ? CircularProgressIndicator()
-                : Container(
+    return loading
+        ? const Center(child: CircularProgressIndicator())
+        : SizedBox(
+            height: MediaQuery.of(context).size.width * 1.65,
+            child: Column(
+              children: [
+                Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * .6,
+                    height: 70,
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 30,
+                  child: const Center(
+                    child: Text(
+                      'News',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ),
+                  decoration: const BoxDecoration(color: Colors.green),
+                ),
+                Container(
+                  height: 30,
+                  alignment: Alignment.center,
+                  // padding: EdgeInsets.all(20),
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width * .7,
                     child: Row(
                       children: apidata2.map<Widget>(
                         (percentage) {
-                          return Container(
-                              child: Row(
+                          return Row(
                             children: [
                               Text(
                                 'positive: ' +
@@ -125,52 +130,48 @@ class _NewsState extends State<News> {
                                     fontWeight: FontWeight.bold),
                               ),
                             ],
-                          ));
+                          );
                         },
                       ).toList(),
                     ),
                   ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                alignment: Alignment.topCenter,
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: loading
-                    ? CircularProgressIndicator()
-                    : Container(
-                        child: Column(
-                          children: apidata.map<Widget>(
-                            (news) {
-                              return Card(
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      alignment: Alignment.topCenter,
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: Column(
+                        children: apidata.map<Widget>(
+                          (news) {
+                            return Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: ListTile(
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
+                                  side: news["sentiment"] == "positive"
+                                      ? const BorderSide(
+                                          color: Colors.green, width: 3)
+                                      : news["sentiment"] == "negative"
+                                          ? const BorderSide(
+                                              color: Colors.red, width: 3)
+                                          : const BorderSide(
+                                              color: Colors.grey, width: 3),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: ListTile(
-                                  shape: RoundedRectangleBorder(
-                                    side: news["sentiment"] == "positive"
-                                        ? const BorderSide(
-                                            color: Colors.green, width: 3)
-                                        : news["sentiment"] == "negative"
-                                            ? const BorderSide(
-                                                color: Colors.red, width: 3)
-                                            : const BorderSide(
-                                                color: Colors.grey, width: 3),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  title: Text(news["title"]),
-                                  subtitle: Text(news["sentiment"]),
-                                ),
-                              );
-                            },
-                          ).toList(),
-                        ),
+                                title: Text(news["title"]),
+                                subtitle: Text(news["sentiment"]),
+                              ),
+                            );
+                          },
+                        ).toList(),
                       ),
-              ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }

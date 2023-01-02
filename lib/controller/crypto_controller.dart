@@ -14,7 +14,7 @@ class CryptoController with ChangeNotifier {
       response = await http.get(Uri.parse('$url/$cryptoName'));
       Future<List> fetchPrice() async {
         List<double> price = [];
-        for (var i = 0; i < 76; i++) {
+        for (var i = 0; i < 75; i++) {
           price.add(jsonDecode(response.body)[i]['price'] as double);
         }
         // print(price);
@@ -39,14 +39,13 @@ class CryptoController with ChangeNotifier {
 
       Future<List> fetchPreds() async {
         List<double> preds = [];
-        for (var i = 0; i < 76; i++) {
+        for (var i = 1; i < 76; i++) {
           preds.add(jsonDecode(response.body)[i]['prediction_price'] as double);
         }
         return preds;
       }
 
       preds = await fetchPreds();
-      print(preds);
 
       print('done connect');
     } catch (e) {
@@ -71,7 +70,6 @@ class CryptoController with ChangeNotifier {
       }
 
       num = await fetchNum();
-      print(num);
 
       print('done connect');
     } catch (e) {

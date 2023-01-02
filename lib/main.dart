@@ -8,7 +8,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'controller/crypto_controller.dart';
 
-void main() {
+void main() async {
   runApp(const MyHomePage());
 }
 
@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
             _child = const Main();
             break;
           case 2:
-            _child = Market();
+            _child = Main();
             break;
         }
       },
