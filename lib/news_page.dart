@@ -1,10 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class News extends StatefulWidget {
   const News({Key? key}) : super(key: key);
@@ -49,23 +44,15 @@ class _NewsState extends State<News> {
     setState(() {});
   }
 
-  // getData2() async {
-  //   setState(() {
-  //     loading = true;
-  //   });
-
-  //   String url2 = "http://10.0.2.2:5000/news/percentage";
-
-  //   Response response2 = await dio.get(url2);
-  //   apidata2 = response2.data; //get JSON decoded data from response
-  //   loading = false;
-  //   setState(() {});
-  // }
-
   @override
   Widget build(BuildContext context) {
     return loading
-        ? const Center(child: CircularProgressIndicator())
+        ? Center(
+            child: Image.asset(
+              'assets/images/loading.png',
+              fit: BoxFit.fitWidth,
+            ),
+          )
         : SizedBox(
             height: MediaQuery.of(context).size.width * 1.65,
             child: Column(
@@ -92,7 +79,21 @@ class _NewsState extends State<News> {
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
-                  decoration: const BoxDecoration(color: Colors.green),
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      border: Border.all(color: Colors.green),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black54,
+                          offset: Offset(
+                            0.0,
+                            3.0,
+                          ),
+                          blurRadius: 5.0,
+                          spreadRadius: 1.0,
+                        ),
+                      ]),
                 ),
                 Container(
                   height: 30,
@@ -160,6 +161,20 @@ class _NewsState extends State<News> {
                                               color: Colors.grey, width: 3),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
+                                leading: news["sentiment"] == "positive"
+                                    ? Image.asset(
+                                        'assets/images/positive.png',
+                                        fit: BoxFit.fitWidth,
+                                      )
+                                    : news["sentiment"] == "negative"
+                                        ? Image.asset(
+                                            'assets/images/negative.png',
+                                            fit: BoxFit.fitWidth,
+                                          )
+                                        : Image.asset(
+                                            'assets/images/natural.png',
+                                            fit: BoxFit.fitWidth,
+                                          ),
                                 title: Text(news["title"]),
                                 subtitle: Text(news["sentiment"]),
                               ),

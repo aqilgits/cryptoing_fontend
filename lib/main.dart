@@ -1,5 +1,3 @@
-import 'package:cryptoingfontend/market.dart';
-import 'package:cryptoingfontend/market_page.dart';
 import 'package:cryptoingfontend/news_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptoingfontend/sub_main.dart';
@@ -82,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
             _child = const Main();
             break;
           case 2:
-            _child = Main();
+            _child = const Main();
             break;
         }
       },
