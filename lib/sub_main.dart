@@ -2,6 +2,8 @@ import 'package:cryptoingfontend/controller/crypto_controller.dart';
 import 'package:cryptoingfontend/market_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Main extends StatefulWidget {
   const Main({Key? key}) : super(key: key);
@@ -20,7 +22,14 @@ class _MainState extends State<Main> {
   bool loading = false;
   String errmsg = "";
   var apidata;
-  var apidata2;
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw "can not lauch url";
+    }
+  }
+
   @override
   void initState() {
     // getData2();
@@ -38,10 +47,6 @@ class _MainState extends State<Main> {
     Response response = await dio.get(url);
     apidata = response.data; //get JSON decoded data from response
 
-    String url2 = "http://10.0.2.2:5000/news/percentage";
-
-    Response response2 = await dio.get(url2);
-    apidata2 = response2.data; //get JSON decoded data from response
     loading = false;
     setState(() {});
   }
@@ -86,7 +91,7 @@ class _MainState extends State<Main> {
                 height: 30,
                 child: const Center(
                   child: Text(
-                    'News',
+                    'Top News',
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
@@ -107,7 +112,7 @@ class _MainState extends State<Main> {
                     ]),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.18,
+                height: MediaQuery.of(context).size.height * 0.15,
                 width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -115,24 +120,30 @@ class _MainState extends State<Main> {
                   scrollDirection: Axis.horizontal,
                   children: apidata.getRange(0, 4).map<Widget>(
                     (news) {
-                      return SizedBox(
+                      return Container(
+                        margin: EdgeInsets.fromLTRB(0, 10, 15, 10),
                         width: MediaQuery.of(context).size.width * 0.8,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.white),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: news["sentiment"] == "positive"
+                                    ? const BorderSide(
+                                        color: Colors.green, width: 3)
+                                    : news["sentiment"] == "negative"
+                                        ? const BorderSide(
+                                            color: Colors.red, width: 3)
+                                        : const BorderSide(
+                                            color: Colors.grey, width: 3),
+                              ))),
+                          onPressed: () async {
+                            _launchURL(news['url']);
+                          },
                           child: ListTile(
-                            shape: RoundedRectangleBorder(
-                              side: news["sentiment"] == "positive"
-                                  ? const BorderSide(
-                                      color: Colors.green, width: 3)
-                                  : news["sentiment"] == "negative"
-                                      ? const BorderSide(
-                                          color: Colors.red, width: 3)
-                                      : const BorderSide(
-                                          color: Colors.grey, width: 3),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
                             leading: news["sentiment"] == "positive"
                                 ? Image.asset(
                                     'assets/images/positive.png',
@@ -147,8 +158,14 @@ class _MainState extends State<Main> {
                                         'assets/images/natural.png',
                                         fit: BoxFit.fitWidth,
                                       ),
-                            title: Text(news["title"]),
-                            subtitle: Text(news["sentiment"]),
+                            title: Text(
+                              news["title"],
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            subtitle: Text(
+                              news["sentiment"],
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                       );
@@ -196,7 +213,7 @@ class _MainState extends State<Main> {
               ),
               Container(
                 padding: const EdgeInsets.all(8),
-                height: 370,
+                height: MediaQuery.of(context).size.height * 0.5,
                 child: ListView(
                   padding: const EdgeInsets.all(8),
                   children: <Widget>[
@@ -304,8 +321,9 @@ class _MainState extends State<Main> {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const Market('BTC')));
+                          Navigator.of(context).push(PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: const Market("BTC")));
                         },
                         style: buttonstyle,
                       ),
@@ -416,8 +434,9 @@ class _MainState extends State<Main> {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const Market('ETH')));
+                          Navigator.of(context).push(PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: const Market("ETH")));
                         },
                         style: buttonstyle,
                       ),
@@ -528,8 +547,9 @@ class _MainState extends State<Main> {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const Market('XRP')));
+                          Navigator.of(context).push(PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: const Market("XRP")));
                         },
                         style: buttonstyle,
                       ),
@@ -640,8 +660,9 @@ class _MainState extends State<Main> {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const Market('ADA')));
+                          Navigator.of(context).push(PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: const Market("ADA")));
                         },
                         style: buttonstyle,
                       ),
@@ -752,8 +773,9 @@ class _MainState extends State<Main> {
                           ],
                         ),
                         onPressed: () async {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const Market('DOGE')));
+                          Navigator.of(context).push(PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: const Market("DOGE")));
                         },
                         style: buttonstyle,
                       ),

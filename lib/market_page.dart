@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'dart:math';
+import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:cryptoingfontend/controller/crypto_controller.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,9 @@ class _MarketState extends State<Market> {
   double maximum = 0.0;
   double minimum = 0.0;
   late Future prices;
-  late Future preds; //for data featching status
+  late Future preds;
+  var apidata;
+  Dio dio = Dio();
   final List<Color> gradientColors2 = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a)
@@ -31,6 +34,7 @@ class _MarketState extends State<Market> {
     const Color.fromARGB(255, 255, 0, 251),
     const Color.fromARGB(255, 0, 16, 246)
   ];
+
   @override
   void initState() {
     // getData2();
@@ -42,13 +46,13 @@ class _MarketState extends State<Market> {
     setState(() {
       loading = true;
     });
+
     prices = CryptoController().getCryptoPrice(widget.cryptoname);
     dynamic valueprice = await prices;
     preds = CryptoController().getCryptoPreds(widget.cryptoname);
     dynamic valuepreds = await preds;
 
     for (int i = 35; i < valueprice.length; i++) {
-      print(valueprice[i]);
       double value = (valueprice[74] * 10000).round() / 10000;
       maxi = valueprice.cast<double>();
       maximum = maxi.getRange(35, 74).reduce(max);
@@ -60,7 +64,6 @@ class _MarketState extends State<Market> {
       });
     }
     for (int i = 35; i < valuepreds.length; i++) {
-      print(valuepreds[i]);
       predsdata = List.generate(40, (index) {
         double value = (valuepreds[index + 35] * 10000).round() / 10000;
         maxi = valuepreds.cast<double>();
@@ -68,6 +71,12 @@ class _MarketState extends State<Market> {
         return FlSpot(index.toDouble() + 1, value);
       });
     }
+
+    String url = 'https://api.kucoin.com/api/v1/market/stats?symbol=' +
+        widget.cryptoname +
+        '-USDT';
+    Response response = await dio.get(url);
+    apidata = response.data;
     loading = false;
     setState(() {});
   }
@@ -250,7 +259,7 @@ class _MarketState extends State<Market> {
                               minX: 0,
                               maxX: 40,
                               minY: minimum - (minimum * (2 / 100)),
-                              maxY: maximum,
+                              maxY: maximum + (maximum * (1 / 100)),
                               gridData: FlGridData(
                                 show: false,
                               ),
@@ -329,27 +338,30 @@ class _MarketState extends State<Market> {
                       Container(
                         padding: const EdgeInsets.all(10),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text('High'),
-                                Text(
-                                  '\$080770',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30),
-                                ),
-                              ],
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('High'),
+                                  Text(
+                                    '\$' + apidata['data']['high'],
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30),
+                                  ),
+                                ],
+                              ),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text('Low'),
+                              children: [
+                                const Text('Low'),
                                 Text(
-                                  '\$87825734',
-                                  style: TextStyle(
+                                  '\$' + apidata['data']['low'],
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 30),
                                 ),
@@ -361,31 +373,41 @@ class _MarketState extends State<Market> {
                       Container(
                         padding: const EdgeInsets.all(10),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text('Volume'),
-                                Text(
-                                  '\$54156545',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30),
-                                ),
-                              ],
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('Volume'),
+                                  Text(
+                                    '\$' +
+                                        double.parse(apidata['data']['vol'])
+                                            .toStringAsFixed(3),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25),
+                                  ),
+                                ],
+                              ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text('Circulating supply'),
-                                Text(
-                                  '12,54481,5184',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30),
-                                ),
-                              ],
+                            SizedBox(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('Average price'),
+                                  Text(
+                                    '\$' +
+                                        double.parse(
+                                                apidata['data']['averagePrice'])
+                                            .toStringAsFixed(3),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25),
+                                  ),
+                                ],
+                              ),
                             )
                           ],
                         ),
@@ -397,4 +419,11 @@ class _MarketState extends State<Market> {
       ),
     );
   }
+}
+
+class ChartData {
+  ChartData(this.x, this.y, this.color);
+  final String x;
+  final double y;
+  final Color color;
 }

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class News extends StatefulWidget {
   const News({Key? key}) : super(key: key);
@@ -18,9 +19,15 @@ class _NewsState extends State<News> {
   var apidata; //for decoded JSON data
   var apidata2; //for decoded JSON data
 
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw "can not lauch url";
+    }
+  }
+
   @override
   void initState() {
-    // getData2();
     getData();
     super.initState();
   }
@@ -149,34 +156,44 @@ class _NewsState extends State<News> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
-                              child: ListTile(
-                                shape: RoundedRectangleBorder(
-                                  side: news["sentiment"] == "positive"
-                                      ? const BorderSide(
-                                          color: Colors.green, width: 3)
-                                      : news["sentiment"] == "negative"
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.white),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: news["sentiment"] == "positive"
                                           ? const BorderSide(
-                                              color: Colors.red, width: 3)
-                                          : const BorderSide(
-                                              color: Colors.grey, width: 3),
-                                  borderRadius: BorderRadius.circular(20),
+                                              color: Colors.green, width: 3)
+                                          : news["sentiment"] == "negative"
+                                              ? const BorderSide(
+                                                  color: Colors.red, width: 3)
+                                              : const BorderSide(
+                                                  color: Colors.grey, width: 3),
+                                    ))),
+                                onPressed: () async {
+                                  _launchURL(news['url']);
+                                },
+                                child: ListTile(
+                                  leading: news["sentiment"] == "positive"
+                                      ? Image.asset(
+                                          'assets/images/positive.png',
+                                          fit: BoxFit.fitWidth,
+                                        )
+                                      : news["sentiment"] == "negative"
+                                          ? Image.asset(
+                                              'assets/images/negative.png',
+                                              fit: BoxFit.fitWidth,
+                                            )
+                                          : Image.asset(
+                                              'assets/images/natural.png',
+                                              fit: BoxFit.fitWidth,
+                                            ),
+                                  title: Text(news["title"]),
+                                  subtitle: Text(news["sentiment"]),
                                 ),
-                                leading: news["sentiment"] == "positive"
-                                    ? Image.asset(
-                                        'assets/images/positive.png',
-                                        fit: BoxFit.fitWidth,
-                                      )
-                                    : news["sentiment"] == "negative"
-                                        ? Image.asset(
-                                            'assets/images/negative.png',
-                                            fit: BoxFit.fitWidth,
-                                          )
-                                        : Image.asset(
-                                            'assets/images/natural.png',
-                                            fit: BoxFit.fitWidth,
-                                          ),
-                                title: Text(news["title"]),
-                                subtitle: Text(news["sentiment"]),
                               ),
                             );
                           },
