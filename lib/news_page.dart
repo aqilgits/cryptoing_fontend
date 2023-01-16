@@ -185,105 +185,118 @@ class _NewsState extends State<News> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * .49,
-                child: SingleChildScrollView(
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: Column(
-                      children: apidata.map<Widget>(
-                        (news) {
-                          return Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                    Color(0xff03045e),
-                                  ),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                    side: news["sentiment"] == "positive"
-                                        ? const BorderSide(
-                                            color: Colors.green, width: 3)
+                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                width: MediaQuery.of(context).size.width,
+                child: const Text(
+                  'News',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * .3,
+                  child: SingleChildScrollView(
+                    child: Container(
+                      alignment: Alignment.topCenter,
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: Column(
+                        children: apidata.map<Widget>(
+                          (news) {
+                            return Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                      Color(0xff03045e),
+                                    ),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: news["sentiment"] == "positive"
+                                          ? const BorderSide(
+                                              color: Colors.green, width: 3)
+                                          : news["sentiment"] == "negative"
+                                              ? const BorderSide(
+                                                  color: Colors.red, width: 3)
+                                              : const BorderSide(
+                                                  color: Colors.grey, width: 3),
+                                    ))),
+                                onPressed: () async {
+                                  _launchURL(news['url']);
+                                },
+                                child: Container(
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                      image: news["sentiment"] == "positive"
+                                          ? const DecorationImage(
+                                              opacity: 0.2,
+                                              alignment: Alignment.centerRight,
+                                              image: AssetImage(
+                                                'assets/images/positive.png',
+                                              ))
+                                          : news["sentiment"] == "natural"
+                                              ? const DecorationImage(
+                                                  opacity: 0.2,
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  image: AssetImage(
+                                                    'assets/images/natural.png',
+                                                  ))
+                                              : const DecorationImage(
+                                                  opacity: 0.2,
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  image: AssetImage(
+                                                    'assets/images/negative.png',
+                                                  ))),
+                                  child: ListTile(
+                                    leading: news["sentiment"] == "positive"
+                                        ? Image.asset(
+                                            'assets/images/positive.png',
+                                            fit: BoxFit.fitWidth,
+                                          )
                                         : news["sentiment"] == "negative"
-                                            ? const BorderSide(
-                                                color: Colors.red, width: 3)
-                                            : const BorderSide(
-                                                color: Colors.grey, width: 3),
-                                  ))),
-                              onPressed: () async {
-                                _launchURL(news['url']);
-                              },
-                              child: Container(
-                                height: 100,
-                                decoration: BoxDecoration(
-                                    image: news["sentiment"] == "positive"
-                                        ? const DecorationImage(
-                                            opacity: 0.2,
-                                            alignment: Alignment.centerRight,
-                                            image: AssetImage(
-                                              'assets/images/positive.png',
-                                            ))
-                                        : news["sentiment"] == "natural"
-                                            ? const DecorationImage(
-                                                opacity: 0.2,
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                image: AssetImage(
-                                                  'assets/images/natural.png',
-                                                ))
-                                            : const DecorationImage(
-                                                opacity: 0.2,
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                image: AssetImage(
-                                                  'assets/images/negative.png',
-                                                ))),
-                                child: ListTile(
-                                  dense: true,
-                                  visualDensity:
-                                      VisualDensity(vertical: 3), // to compact
-                                  leading: news["sentiment"] == "positive"
-                                      ? Image.asset(
-                                          'assets/images/positive.png',
-                                          fit: BoxFit.fitWidth,
-                                        )
-                                      : news["sentiment"] == "negative"
-                                          ? Image.asset(
-                                              'assets/images/negative.png',
-                                              fit: BoxFit.fitWidth,
-                                            )
-                                          : Image.asset(
-                                              'assets/images/natural.png',
-                                              fit: BoxFit.fitWidth,
-                                            ),
-                                  title: Text(
-                                    news["title"],
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                        overflow: TextOverflow.fade),
-                                  ),
-                                  subtitle: Text(
-                                    news["sentiment"],
-                                    style: TextStyle(
-                                        color: Colors.white70,
-                                        overflow: TextOverflow.fade),
+                                            ? Image.asset(
+                                                'assets/images/negative.png',
+                                                fit: BoxFit.fitWidth,
+                                              )
+                                            : Image.asset(
+                                                'assets/images/natural.png',
+                                                fit: BoxFit.fitWidth,
+                                              ),
+                                    title: Text(
+                                      news["title"],
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                          overflow: TextOverflow.fade),
+                                    ),
+                                    subtitle: Text(
+                                      news["sentiment"],
+                                      style: TextStyle(
+                                          color: Colors.white70,
+                                          overflow: TextOverflow.fade),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      ).toList(),
+                            );
+                          },
+                        ).toList(),
+                      ),
                     ),
                   ),
                 ),
