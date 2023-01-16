@@ -37,27 +37,37 @@ class _MyHomePageState extends State<MyHomePage> {
             primarySwatch: Colors.purple,
           ),
           home: Scaffold(
-            body: SafeArea(child: _child),
+            extendBody: true,
+            resizeToAvoidBottomInset: false,
+            body: Container(
+                decoration: const BoxDecoration(
+                    gradient: RadialGradient(
+                  colors: [Color(0xff00b4d8), Color(0xff03045e)],
+                  center: Alignment.topLeft,
+                  radius: 0.8,
+                )),
+                child: SafeArea(child: _child)),
             bottomNavigationBar: FluidNavBar(
               icons: [
                 FluidNavBarIcon(
                     icon: Ionicons.newspaper_outline,
-                    backgroundColor: Colors.green,
+                    backgroundColor: Color(0xff0077b6),
                     extras: {"label": "news"}),
                 FluidNavBarIcon(
                     icon: Icons.auto_graph,
-                    backgroundColor: Colors.green,
+                    backgroundColor: Color(0xff0077b6),
                     extras: {"label": "home"}),
                 FluidNavBarIcon(
                     icon: Ionicons.help_outline,
-                    backgroundColor: Colors.green,
+                    backgroundColor: Color(0xff0077b6),
                     extras: {"label": "help"}),
               ],
               onChange: _handleNavigationChange,
               style: const FluidNavBarStyle(
-                  iconUnselectedForegroundColor: Colors.white,
-                  iconSelectedForegroundColor: Colors.white,
-                  barBackgroundColor: Colors.green),
+                iconUnselectedForegroundColor: Colors.white,
+                iconSelectedForegroundColor: Colors.transparent,
+                barBackgroundColor: Color(0xff0077b6),
+              ),
               scaleFactor: 1.5,
               defaultIndex: 1,
               itemBuilder: (icon, item) => Semantics(

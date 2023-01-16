@@ -20,19 +20,21 @@ class _MarketState extends State<Market> {
   bool loading = false;
   String current = '';
   List<double> maxi = [];
-  double maximum = 0.0;
-  double minimum = 0.0;
+  double maximumprice = 0.0;
+  double minimumprice = 0.0;
+  double maximumpreds = 0.0;
+  double minimumpreds = 0.0;
   late Future prices;
   late Future preds;
   var apidata;
   Dio dio = Dio();
   final List<Color> gradientColors2 = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a)
+    const Color(0xfffe036a),
+    const Color(0xff958093),
   ];
   final List<Color> gradientColors = [
-    const Color.fromARGB(255, 255, 0, 251),
-    const Color.fromARGB(255, 0, 16, 246)
+    const Color(0xff8cfb69),
+    const Color(0xff26bbac),
   ];
 
   @override
@@ -55,11 +57,13 @@ class _MarketState extends State<Market> {
     for (int i = 35; i < valueprice.length; i++) {
       double value = (valueprice[74] * 10000).round() / 10000;
       maxi = valueprice.cast<double>();
-      maximum = maxi.getRange(35, 74).reduce(max);
+
+      print(maximumprice);
       current = value.toString();
       pricedata = List.generate(40, (index) {
         double value = (valueprice[index + 35] * 10000).round() / 10000;
-
+        maximumprice = maxi.getRange(35, 75).reduce(max);
+        minimumprice = maxi.getRange(35, 75).reduce(min);
         return FlSpot(index.toDouble(), value);
       });
     }
@@ -67,7 +71,9 @@ class _MarketState extends State<Market> {
       predsdata = List.generate(40, (index) {
         double value = (valuepreds[index + 35] * 10000).round() / 10000;
         maxi = valuepreds.cast<double>();
-        minimum = maxi.getRange(35, 74).reduce(min);
+        maximumpreds = maxi.getRange(35, 75).reduce(max);
+        minimumpreds = maxi.getRange(35, 75).reduce(min);
+        print(maximumpreds);
         return FlSpot(index.toDouble() + 1, value);
       });
     }
@@ -90,66 +96,58 @@ class _MarketState extends State<Market> {
         switch (value.toInt()) {
           case 40:
             return Transform.rotate(
-                alignment: Alignment.centerRight,
+                alignment: Alignment.center,
                 angle: -60 * math.pi / 180,
-                child: Text(DateFormat('dd/MM/yy').format(DateTime.now())));
+                child: Text(DateFormat('dd MMM').format(DateTime.now())));
 
           case 35:
             return Transform.rotate(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.center,
               angle: -60 * math.pi / 180,
-              child: Text(DateFormat('dd/MM/yy')
+              child: Text(DateFormat('dd MMM')
                   .format(DateTime.now().subtract(const Duration(days: 5)))),
             );
           case 30:
             return Transform.rotate(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.center,
               angle: -60 * math.pi / 180,
-              child: Text(DateFormat('dd/MM/yy')
+              child: Text(DateFormat('dd MMM')
                   .format(DateTime.now().subtract(const Duration(days: 10)))),
             );
           case 25:
             return Transform.rotate(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.center,
               angle: -60 * math.pi / 180,
-              child: Text(DateFormat('dd/MM/yy')
+              child: Text(DateFormat('dd MMM')
                   .format(DateTime.now().subtract(const Duration(days: 15)))),
             );
           case 20:
             return Transform.rotate(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.center,
               angle: -60 * math.pi / 180,
-              child: Text(DateFormat('dd/MM/yy')
+              child: Text(DateFormat('dd MMM')
                   .format(DateTime.now().subtract(const Duration(days: 20)))),
             );
           case 15:
             return Transform.rotate(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.center,
               angle: -60 * math.pi / 180,
-              child: Text(DateFormat('dd/MM/yy')
+              child: Text(DateFormat('dd MMM')
                   .format(DateTime.now().subtract(const Duration(days: 25)))),
             );
           case 10:
             return Transform.rotate(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.center,
               angle: -60 * math.pi / 180,
-              child: Text(DateFormat('dd/MM/yy')
+              child: Text(DateFormat('dd MMM')
                   .format(DateTime.now().subtract(const Duration(days: 30)))),
             );
           case 5:
             return Transform.rotate(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.center,
               angle: -60 * math.pi / 180,
-              child: Text(DateFormat('dd/MM/yy')
+              child: Text(DateFormat('dd MMM')
                   .format(DateTime.now().subtract(const Duration(days: 35)))),
-            );
-            ;
-          case 0:
-            return Transform.rotate(
-              alignment: Alignment.centerRight,
-              angle: -60 * math.pi / 180,
-              child: Text(DateFormat('dd/MM/yy')
-                  .format(DateTime.now().subtract(const Duration(days: 40)))),
             );
         }
         return const Text('');
@@ -160,7 +158,7 @@ class _MarketState extends State<Market> {
   SideTitles get leftTitles {
     return SideTitles(
       reservedSize: 50,
-      showTitles: true,
+      showTitles: false,
     );
   }
 
@@ -213,6 +211,7 @@ class _MarketState extends State<Market> {
                       Container(
                         padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,38 +227,77 @@ class _MarketState extends State<Market> {
                                       fontSize: 30),
                                 ),
                               ],
+                            ),
+                            FutureBuilder<dynamic>(
+                              future: prediction(widget.cryptoname),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Container(
+                                      margin: const EdgeInsets.all(10),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.04,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              snapshot.data.toString() == 'Buy'
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                          border: Border.all(
+                                              color: snapshot.data.toString() ==
+                                                      'Buy'
+                                                  ? Colors.green
+                                                  : Colors.red),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.3,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        snapshot.data.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ));
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                }
+                                return const Text("");
+                              },
                             )
                           ],
                         ),
                       ),
                       Container(
                         height: MediaQuery.of(context).size.height * .6,
-                        padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                        // padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
                         child: Container(
-                          margin: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.transparent),
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 0,
-                                blurRadius: 7,
-                                offset: const Offset(
-                                    0, 5), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          padding: const EdgeInsets.fromLTRB(0, 20, 40, 30),
+                          // margin: const EdgeInsets.all(5),
+                          // decoration: BoxDecoration(
+                          //   color: Colors.white,
+                          //   border: Border.all(color: Colors.transparent),
+                          //   borderRadius: BorderRadius.circular(20),
+                          //   boxShadow: [
+                          //     BoxShadow(
+                          //       color: Colors.grey.withOpacity(0.5),
+                          //       spreadRadius: 0,
+                          //       blurRadius: 7,
+                          //       offset: const Offset(
+                          //           0, 5), // changes position of shadow
+                          //     ),
+                          //   ],
+                          // ),
+                          padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
                           width: double.infinity,
                           height: MediaQuery.of(context).size.height * .5,
                           child: LineChart(
                             LineChartData(
                               minX: 0,
                               maxX: 40,
-                              minY: minimum - (minimum * (2 / 100)),
-                              maxY: maximum + (maximum * (1 / 100)),
+                              minY: minimumpreds < minimumprice
+                                  ? minimumpreds - (minimumpreds * (2 / 100))
+                                  : minimumprice - (minimumprice * (2 / 100)),
+                              // maxY: maximumpreds > maximumprice
+                              //     ? maximumpreds + (maximumpreds * (2 / 100))
+                              //     : minimumprice + (maximumprice * (2 / 100)),
                               gridData: FlGridData(
                                 show: false,
                               ),
@@ -268,8 +306,8 @@ class _MarketState extends State<Market> {
                                 border: const Border(
                                   top: BorderSide.none,
                                   right: BorderSide.none,
-                                  left: BorderSide(width: 1.0),
-                                  bottom: BorderSide(width: 1.0),
+                                  left: BorderSide.none,
+                                  bottom: BorderSide.none,
                                 ),
                               ),
                               lineBarsData: [
@@ -280,15 +318,18 @@ class _MarketState extends State<Market> {
                                     ),
                                     spots: pricedata,
                                     isCurved: true,
-                                    barWidth: 3,
+                                    barWidth: 2,
                                     gradient:
                                         LinearGradient(colors: gradientColors),
                                     belowBarData: BarAreaData(
                                       show: true,
                                       gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
                                         colors: gradientColors
-                                            .map((color) =>
-                                                color.withOpacity(0.06))
+                                            .map(
+                                              (color) => color.withOpacity(0.3),
+                                            )
                                             .toList(),
                                       ),
                                     )),
@@ -298,15 +339,15 @@ class _MarketState extends State<Market> {
                                   ),
                                   spots: predsdata,
                                   isCurved: true,
-                                  barWidth: 3,
+                                  barWidth: 2,
                                   gradient:
                                       LinearGradient(colors: gradientColors2),
                                   belowBarData: BarAreaData(
                                     show: true,
                                     gradient: LinearGradient(
                                       colors: gradientColors2
-                                          .map((color) =>
-                                              color.withOpacity(0.06))
+                                          .map(
+                                              (color) => color.withOpacity(0.3))
                                           .toList(),
                                     ),
                                   ),
@@ -419,11 +460,17 @@ class _MarketState extends State<Market> {
       ),
     );
   }
-}
 
-class ChartData {
-  ChartData(this.x, this.y, this.color);
-  final String x;
-  final double y;
-  final Color color;
+  prediction(String name) async {
+    preds = CryptoController().getCryptoPreds(name);
+
+    dynamic valuepreds = await preds;
+    prices = CryptoController().getCryptoPrice(name);
+    dynamic valueprice = await prices;
+    if (valueprice[74] > valuepreds[74]) {
+      return "Buy";
+    } else {
+      return "Sell";
+    }
+  }
 }
