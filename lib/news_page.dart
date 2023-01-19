@@ -47,7 +47,6 @@ class _NewsState extends State<News> {
 
     Response response2 = await dio.get(url2);
     apidata2 = response2.data; //get JSON decoded data from response
-    print(apidata2);
     loading = false;
     setState(() {});
   }
@@ -63,24 +62,11 @@ class _NewsState extends State<News> {
           )
         : Column(
             children: [
-              // Center(
-              //   child: SizedBox(
-              //     width: MediaQuery.of(context).size.width * .6,
-              //     height: 70,
-              //     child: Image.asset(
-              //       'assets/images/logo.png',
-              //       fit: BoxFit.fitWidth,
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
               const SizedBox(
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                 width: MediaQuery.of(context).size.width,
                 child: const Text(
                   'Sentiment',
@@ -90,12 +76,12 @@ class _NewsState extends State<News> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
                 width: MediaQuery.of(context).size.width * .9,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   image: const DecorationImage(
                       opacity: 0.1,
@@ -113,33 +99,54 @@ class _NewsState extends State<News> {
                             height: 100,
                             child: PieChart(PieChartData(sections: [
                               PieChartSectionData(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color.fromARGB(255, 0, 255, 26),
                                     width: 2),
-                                titleStyle: TextStyle(color: Colors.white),
+                                titleStyle:
+                                    const TextStyle(color: Colors.white),
                                 color: Colors.green,
                                 value: apidata2[0]['positive'].toDouble(),
-                                radius: 50,
+                                radius: apidata2[0]['positive'].toDouble() <
+                                            apidata2[0]['negative']
+                                                .toDouble() ||
+                                        apidata2[0]['positive'].toDouble() <
+                                            apidata2[0]['neutral'].toDouble()
+                                    ? 40
+                                    : 50,
                                 title: apidata2[0]['positive'].toString() + '%',
                               ),
                               PieChartSectionData(
-                                borderSide: BorderSide(
-                                    color: Color.fromARGB(255, 244, 34, 34),
+                                borderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 255, 0, 0),
                                     width: 2),
-                                titleStyle: TextStyle(color: Colors.white),
+                                titleStyle:
+                                    const TextStyle(color: Colors.white),
                                 color: Colors.red,
                                 value: apidata2[0]['negative'].toDouble(),
-                                radius: 50,
+                                radius: apidata2[0]['negative'].toDouble() <
+                                            apidata2[0]['positive']
+                                                .toDouble() ||
+                                        apidata2[0]['negative'].toDouble() <
+                                            apidata2[0]['neutral'].toDouble()
+                                    ? 40
+                                    : 50,
                                 title: apidata2[0]['negative'].toString() + '%',
                               ),
                               PieChartSectionData(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color.fromARGB(255, 255, 255, 255),
                                     width: 2),
-                                titleStyle: TextStyle(color: Colors.white),
+                                titleStyle:
+                                    const TextStyle(color: Colors.white),
                                 color: Colors.grey,
                                 value: apidata2[0]['neutral'].toDouble(),
-                                radius: 50,
+                                radius: apidata2[0]['neutral'].toDouble() <
+                                            apidata2[0]['negative']
+                                                .toDouble() ||
+                                        apidata2[0]['neutral'].toDouble() <
+                                            apidata2[0]['positive'].toDouble()
+                                    ? 40
+                                    : 50,
                                 title: apidata2[0]['neutral'].toString() + '%',
                               ),
                             ]))),
@@ -148,7 +155,6 @@ class _NewsState extends State<News> {
                     Container(
                       height: 30,
                       alignment: Alignment.center,
-                      // padding: EdgeInsets.all(20),
                       child: Container(
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width * .45,
@@ -189,114 +195,112 @@ class _NewsState extends State<News> {
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                 width: MediaQuery.of(context).size.width,
                 child: const Text(
                   'News',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              Expanded(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * .3,
-                  child: SingleChildScrollView(
-                    child: Container(
-                      alignment: Alignment.topCenter,
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: Column(
-                        children: apidata.map<Widget>(
-                          (news) {
-                            return Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                      Color(0xff03045e),
-                                    ),
-                                    shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: news["sentiment"] == "positive"
-                                          ? const BorderSide(
-                                              color: Colors.green, width: 3)
-                                          : news["sentiment"] == "negative"
-                                              ? const BorderSide(
-                                                  color: Colors.red, width: 3)
-                                              : const BorderSide(
-                                                  color: Colors.grey, width: 3),
-                                    ))),
-                                onPressed: () async {
-                                  _launchURL(news['url']);
-                                },
-                                child: Container(
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                      image: news["sentiment"] == "positive"
-                                          ? const DecorationImage(
-                                              opacity: 0.2,
-                                              alignment: Alignment.centerRight,
-                                              image: AssetImage(
-                                                'assets/images/positive.png',
-                                              ))
-                                          : news["sentiment"] == "natural"
-                                              ? const DecorationImage(
-                                                  opacity: 0.2,
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  image: AssetImage(
-                                                    'assets/images/natural.png',
-                                                  ))
-                                              : const DecorationImage(
-                                                  opacity: 0.2,
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  image: AssetImage(
-                                                    'assets/images/negative.png',
-                                                  ))),
-                                  child: ListTile(
-                                    leading: news["sentiment"] == "positive"
-                                        ? Image.asset(
-                                            'assets/images/positive.png',
-                                            fit: BoxFit.fitWidth,
-                                          )
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .43,
+                child: SingleChildScrollView(
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Column(
+                      children: apidata.map<Widget>(
+                        (news) {
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                    const Color(0xff03045e),
+                                  ),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side: news["sentiment"] == "positive"
+                                        ? const BorderSide(
+                                            color: Colors.green, width: 3)
                                         : news["sentiment"] == "negative"
-                                            ? Image.asset(
-                                                'assets/images/negative.png',
-                                                fit: BoxFit.fitWidth,
-                                              )
-                                            : Image.asset(
-                                                'assets/images/natural.png',
-                                                fit: BoxFit.fitWidth,
-                                              ),
-                                    title: Text(
-                                      news["title"],
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                          overflow: TextOverflow.fade),
-                                    ),
-                                    subtitle: Text(
-                                      news["sentiment"],
-                                      style: TextStyle(
-                                          color: Colors.white70,
-                                          overflow: TextOverflow.fade),
-                                    ),
+                                            ? const BorderSide(
+                                                color: Colors.red, width: 3)
+                                            : const BorderSide(
+                                                color: Colors.grey, width: 3),
+                                  ))),
+                              onPressed: () async {
+                                _launchURL(news['url']);
+                              },
+                              child: Container(
+                                height: 100,
+                                decoration: BoxDecoration(
+                                    image: news["sentiment"] == "positive"
+                                        ? const DecorationImage(
+                                            opacity: 0.2,
+                                            alignment: Alignment.centerRight,
+                                            image: AssetImage(
+                                              'assets/images/positive.png',
+                                            ))
+                                        : news["sentiment"] == "natural"
+                                            ? const DecorationImage(
+                                                opacity: 0.2,
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                image: AssetImage(
+                                                  'assets/images/natural.png',
+                                                ))
+                                            : const DecorationImage(
+                                                opacity: 0.2,
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                image: AssetImage(
+                                                  'assets/images/negative.png',
+                                                ))),
+                                child: ListTile(
+                                  leading: news["sentiment"] == "positive"
+                                      ? Image.asset(
+                                          'assets/images/positive.png',
+                                          fit: BoxFit.fitWidth,
+                                        )
+                                      : news["sentiment"] == "negative"
+                                          ? Image.asset(
+                                              'assets/images/negative.png',
+                                              fit: BoxFit.fitWidth,
+                                            )
+                                          : Image.asset(
+                                              'assets/images/natural.png',
+                                              fit: BoxFit.fitWidth,
+                                            ),
+                                  title: Text(
+                                    news["title"],
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                        overflow: TextOverflow.fade),
+                                  ),
+                                  subtitle: Text(
+                                    news["sentiment"],
+                                    style: const TextStyle(
+                                        color: Colors.white70,
+                                        overflow: TextOverflow.fade),
                                   ),
                                 ),
                               ),
-                            );
-                          },
-                        ).toList(),
-                      ),
+                            ),
+                          );
+                        },
+                      ).toList(),
                     ),
                   ),
                 ),

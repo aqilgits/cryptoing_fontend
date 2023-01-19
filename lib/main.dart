@@ -1,3 +1,4 @@
+import 'package:cryptoingfontend/help.dart';
 import 'package:cryptoingfontend/news_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptoingfontend/sub_main.dart';
@@ -51,15 +52,15 @@ class _MyHomePageState extends State<MyHomePage> {
               icons: [
                 FluidNavBarIcon(
                     icon: Ionicons.newspaper_outline,
-                    backgroundColor: Color(0xff0077b6),
+                    backgroundColor: const Color(0xff0077b6),
                     extras: {"label": "news"}),
                 FluidNavBarIcon(
                     icon: Icons.auto_graph,
-                    backgroundColor: Color(0xff0077b6),
+                    backgroundColor: const Color(0xff0077b6),
                     extras: {"label": "home"}),
                 FluidNavBarIcon(
                     icon: Ionicons.help_outline,
-                    backgroundColor: Color(0xff0077b6),
+                    backgroundColor: const Color(0xff0077b6),
                     extras: {"label": "help"}),
               ],
               onChange: _handleNavigationChange,
@@ -90,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
             _child = const Main();
             break;
           case 2:
-            _child = const Main();
+            _child = const Help();
             break;
         }
       },

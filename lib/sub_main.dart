@@ -44,7 +44,7 @@ class _MainState extends State<Main> {
   ];
   final List<Color> gradientColors2 = [
     const Color(0xff8cfb69),
-    Color(0xff03045e)
+    const Color(0xff03045e)
   ];
   @override
   void initState() {
@@ -60,7 +60,6 @@ class _MainState extends State<Main> {
 
     String url = "http://10.0.2.2:5000/news";
     Response response = await dio.get(url);
-    List crypspot = [BTC, ETH, XRP, ADA, DOGE];
     // for (var crypto in crypspot) {
     apidata = response.data; //get JSON decoded data from response
     prices = CryptoController().getCryptoPrice('BTC');
@@ -135,10 +134,6 @@ class _MainState extends State<Main> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      // child: Image.asset(
-                      //   'assets/images/logo.png',
-                      //   fit: BoxFit.fitWidth,
-                      // ),
                       child: const Text(
                         'Dashboard',
                         style: TextStyle(
@@ -365,7 +360,6 @@ class _MainState extends State<Main> {
                                                 ),
                                               ),
                                               lineBarsData: [
-                                                // // The red line
                                                 LineChartBarData(
                                                     dotData: FlDotData(
                                                       show: false,
@@ -426,12 +420,24 @@ class _MainState extends State<Main> {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * .9,
-                child: const Text(
-                  "Coin",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text(
+                      "Coin",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    Text(
+                      "Recommendation",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(
@@ -441,593 +447,581 @@ class _MainState extends State<Main> {
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                   height: MediaQuery.of(context).size.height,
-                  child: Expanded(
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      padding: const EdgeInsets.all(8),
-                      children: <Widget>[
-                        Container(
-                          decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.white30))),
-                          child: ElevatedButton(
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Image.asset(
-                                    'assets/images/BTC.png',
-                                    height: MediaQuery.of(context).size.height *
-                                        0.06,
-                                  ),
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    padding: const EdgeInsets.all(8),
+                    children: <Widget>[
+                      Container(
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(color: Colors.white30))),
+                        child: ElevatedButton(
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Image.asset(
+                                  'assets/images/BTC.png',
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.06,
                                 ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * .7,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: const [
-                                              Text(
-                                                "BTC",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17),
-                                              ),
-                                              Text(
-                                                " Bitcoin",
-                                                style: TextStyle(
-                                                    fontSize: 17,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .7,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              "BTC",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17),
+                                            ),
+                                            Text(
+                                              " Bitcoin",
+                                              style: TextStyle(
+                                                  fontSize: 17,
+                                                  color: Colors.white70),
+                                            ),
+                                          ],
+                                        ),
+                                        FutureBuilder<dynamic>(
+                                          future: cryptocurrent("BTC"),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                '\$' +
+                                                    snapshot.data
+                                                        .toStringAsFixed(3),
+                                                style: const TextStyle(
+                                                    fontSize: 15,
                                                     color: Colors.white70),
+                                              );
+                                            } else if (snapshot.hasError) {
+                                              return Text(
+                                                  'Error: ${snapshot.error}');
+                                            }
+                                            return const Text("");
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    FutureBuilder<dynamic>(
+                                      future: prediction('BTC'),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.04,
+                                              decoration: BoxDecoration(
+                                                gradient: bgGradient(
+                                                    snapshot.data.toString()),
+                                                border: Border.all(
+                                                    color: Colors.transparent),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                boxShadow: boxShadow(
+                                                    snapshot.data.toString()),
                                               ),
-                                            ],
-                                          ),
-                                          FutureBuilder<dynamic>(
-                                            future: cryptocurrent("BTC"),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.hasData) {
-                                                return Text(
-                                                  '\$' +
-                                                      snapshot.data
-                                                          .toStringAsFixed(3),
-                                                  style: const TextStyle(
-                                                      fontSize: 15,
-                                                      color: Colors.white70),
-                                                );
-                                              } else if (snapshot.hasError) {
-                                                return Text(
-                                                    'Error: ${snapshot.error}');
-                                              }
-                                              return const Text("");
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      FutureBuilder<dynamic>(
-                                        future: prediction('BTC'),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            return Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.04,
-                                                decoration: BoxDecoration(
-                                                  gradient: bgGradient(
-                                                      snapshot.data.toString()),
-                                                  border: Border.all(
-                                                      color:
-                                                          Colors.transparent),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  boxShadow: boxShadow(
-                                                      snapshot.data.toString()),
-                                                ),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.3,
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  snapshot.data.toString(),
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ));
-                                          } else if (snapshot.hasError) {
-                                            return Text(
-                                                'Error: ${snapshot.error}');
-                                          }
-                                          return const Text("");
-                                        },
-                                      )
-                                    ],
-                                  ),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.3,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                snapshot.data.toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ));
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                              'Error: ${snapshot.error}');
+                                        }
+                                        return const Text("");
+                                      },
+                                    )
+                                  ],
                                 ),
-                              ],
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: const Market("BTC")));
-                            },
-                            style: buttonstyle,
+                              ),
+                            ],
                           ),
-                          // margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                          height: 80,
+                          onPressed: () {
+                            Navigator.of(context).push(PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: const Market("BTC")));
+                          },
+                          style: buttonstyle,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.white30))),
-                          child: ElevatedButton(
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Image.asset(
-                                    'assets/images/ETH.png',
-                                    height: MediaQuery.of(context).size.height *
-                                        0.06,
-                                  ),
+                        height: 80,
+                      ),
+                      Container(
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(color: Colors.white30))),
+                        child: ElevatedButton(
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Image.asset(
+                                  'assets/images/ETH.png',
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.06,
                                 ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * .7,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: const [
-                                              Text(
-                                                "ETH",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17),
-                                              ),
-                                              Text(
-                                                " Ethereum",
-                                                style: TextStyle(
-                                                    fontSize: 17,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .7,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              "ETH",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17),
+                                            ),
+                                            Text(
+                                              " Ethereum",
+                                              style: TextStyle(
+                                                  fontSize: 17,
+                                                  color: Colors.white70),
+                                            ),
+                                          ],
+                                        ),
+                                        FutureBuilder<dynamic>(
+                                          future: cryptocurrent("ETH"),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                '\$' +
+                                                    snapshot.data
+                                                        .toStringAsFixed(3),
+                                                style: const TextStyle(
+                                                    fontSize: 15,
                                                     color: Colors.white70),
+                                              );
+                                            } else if (snapshot.hasError) {
+                                              return Text(
+                                                  'Error: ${snapshot.error}');
+                                            }
+                                            return const Text("");
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    FutureBuilder<dynamic>(
+                                      future: prediction('ETH'),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.04,
+                                              decoration: BoxDecoration(
+                                                gradient: bgGradient(
+                                                    snapshot.data.toString()),
+                                                border: Border.all(
+                                                    color: Colors.transparent),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                boxShadow: boxShadow(
+                                                    snapshot.data.toString()),
                                               ),
-                                            ],
-                                          ),
-                                          FutureBuilder<dynamic>(
-                                            future: cryptocurrent("ETH"),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.hasData) {
-                                                return Text(
-                                                  '\$' +
-                                                      snapshot.data
-                                                          .toStringAsFixed(3),
-                                                  style: const TextStyle(
-                                                      fontSize: 15,
-                                                      color: Colors.white70),
-                                                );
-                                              } else if (snapshot.hasError) {
-                                                return Text(
-                                                    'Error: ${snapshot.error}');
-                                              }
-                                              return const Text("");
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      FutureBuilder<dynamic>(
-                                        future: prediction('ETH'),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            return Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.04,
-                                                decoration: BoxDecoration(
-                                                  gradient: bgGradient(
-                                                      snapshot.data.toString()),
-                                                  border: Border.all(
-                                                      color:
-                                                          Colors.transparent),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  boxShadow: boxShadow(
-                                                      snapshot.data.toString()),
-                                                ),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.3,
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  snapshot.data.toString(),
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ));
-                                          } else if (snapshot.hasError) {
-                                            return Text(
-                                                'Error: ${snapshot.error}');
-                                          }
-                                          return Text("");
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: const Market("ETH")));
-                            },
-                            style: buttonstyle,
-                          ),
-                          // margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                          height: 80,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.white30))),
-                          child: ElevatedButton(
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Image.asset(
-                                    'assets/images/XRP.png',
-                                    height: MediaQuery.of(context).size.height *
-                                        0.06,
-                                  ),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.3,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                snapshot.data.toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ));
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                              'Error: ${snapshot.error}');
+                                        }
+                                        return Text("");
+                                      },
+                                    )
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * .7,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: const [
-                                              Text(
-                                                "XRP",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17),
-                                              ),
-                                              Text(
-                                                " Ripple",
-                                                style: TextStyle(
-                                                    fontSize: 17,
-                                                    color: Colors.white70),
-                                              ),
-                                            ],
-                                          ),
-                                          FutureBuilder<dynamic>(
-                                            future: cryptocurrent("XRP"),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.hasData) {
-                                                return Text(
-                                                  '\$' +
-                                                      snapshot.data
-                                                          .toStringAsFixed(3),
-                                                  style: const TextStyle(
-                                                      fontSize: 15,
-                                                      color: Colors.white70),
-                                                );
-                                              } else if (snapshot.hasError) {
-                                                return Text(
-                                                    'Error: ${snapshot.error}');
-                                              }
-                                              return const Text("");
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      FutureBuilder<dynamic>(
-                                        future: prediction('XRP'),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            return Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.04,
-                                                decoration: BoxDecoration(
-                                                  gradient: bgGradient(
-                                                      snapshot.data.toString()),
-                                                  border: Border.all(
-                                                      color:
-                                                          Colors.transparent),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  boxShadow: boxShadow(
-                                                      snapshot.data.toString()),
-                                                ),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.3,
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  snapshot.data.toString(),
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ));
-                                          } else if (snapshot.hasError) {
-                                            return Text(
-                                                'Error: ${snapshot.error}');
-                                          }
-                                          return Text("");
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: const Market("XRP")));
-                            },
-                            style: buttonstyle,
+                              )
+                            ],
                           ),
-                          // margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                          height: 80,
+                          onPressed: () {
+                            Navigator.of(context).push(PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: const Market("ETH")));
+                          },
+                          style: buttonstyle,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.white30))),
-                          child: ElevatedButton(
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Image.asset(
-                                    'assets/images/ADA.png',
-                                    height: MediaQuery.of(context).size.height *
-                                        0.06,
-                                  ),
+                        height: 80,
+                      ),
+                      Container(
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(color: Colors.white30))),
+                        child: ElevatedButton(
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Image.asset(
+                                  'assets/images/XRP.png',
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.06,
                                 ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * .7,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: const [
-                                              Text(
-                                                "ADA",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17),
-                                              ),
-                                              Text(
-                                                " Cardano",
-                                                style: TextStyle(
-                                                    fontSize: 17,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .7,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              "XRP",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17),
+                                            ),
+                                            Text(
+                                              " Ripple",
+                                              style: TextStyle(
+                                                  fontSize: 17,
+                                                  color: Colors.white70),
+                                            ),
+                                          ],
+                                        ),
+                                        FutureBuilder<dynamic>(
+                                          future: cryptocurrent("XRP"),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                '\$' +
+                                                    snapshot.data
+                                                        .toStringAsFixed(3),
+                                                style: const TextStyle(
+                                                    fontSize: 15,
                                                     color: Colors.white70),
+                                              );
+                                            } else if (snapshot.hasError) {
+                                              return Text(
+                                                  'Error: ${snapshot.error}');
+                                            }
+                                            return const Text("");
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    FutureBuilder<dynamic>(
+                                      future: prediction('XRP'),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.04,
+                                              decoration: BoxDecoration(
+                                                gradient: bgGradient(
+                                                    snapshot.data.toString()),
+                                                border: Border.all(
+                                                    color: Colors.transparent),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                boxShadow: boxShadow(
+                                                    snapshot.data.toString()),
                                               ),
-                                            ],
-                                          ),
-                                          FutureBuilder<dynamic>(
-                                            future: cryptocurrent("ADA"),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.hasData) {
-                                                return Text(
-                                                  '\$' +
-                                                      snapshot.data
-                                                          .toStringAsFixed(3),
-                                                  style: const TextStyle(
-                                                      fontSize: 15,
-                                                      color: Colors.white70),
-                                                );
-                                              } else if (snapshot.hasError) {
-                                                return Text(
-                                                    'Error: ${snapshot.error}');
-                                              }
-                                              return const Text("");
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      FutureBuilder<dynamic>(
-                                        future: prediction('ADA'),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            return Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.04,
-                                                decoration: BoxDecoration(
-                                                  gradient: bgGradient(
-                                                      snapshot.data.toString()),
-                                                  border: Border.all(
-                                                      color:
-                                                          Colors.transparent),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  boxShadow: boxShadow(
-                                                      snapshot.data.toString()),
-                                                ),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.3,
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  snapshot.data.toString(),
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ));
-                                          } else if (snapshot.hasError) {
-                                            return Text(
-                                                'Error: ${snapshot.error}');
-                                          }
-                                          return const Text("");
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: const Market("ADA")));
-                            },
-                            style: buttonstyle,
-                          ),
-                          // margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                          height: 80,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.white30))),
-                          child: ElevatedButton(
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Image.asset(
-                                    'assets/images/DOGE.png',
-                                    height: MediaQuery.of(context).size.height *
-                                        0.06,
-                                  ),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.3,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                snapshot.data.toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ));
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                              'Error: ${snapshot.error}');
+                                        }
+                                        return const Text("");
+                                      },
+                                    )
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * .7,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: const [
-                                              Text(
-                                                "DOGE",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17),
-                                              ),
-                                              Text(
-                                                " Dogecoin",
-                                                style: TextStyle(
-                                                    fontSize: 17,
-                                                    color: Colors.white70),
-                                              ),
-                                            ],
-                                          ),
-                                          FutureBuilder<dynamic>(
-                                            future: cryptocurrent("DOGE"),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.hasData) {
-                                                return Text(
-                                                  '\$' +
-                                                      snapshot.data
-                                                          .toStringAsFixed(3),
-                                                  style: const TextStyle(
-                                                      fontSize: 15,
-                                                      color: Colors.white70),
-                                                );
-                                              } else if (snapshot.hasError) {
-                                                return Text(
-                                                    'Error: ${snapshot.error}');
-                                              }
-                                              return const Text("");
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      FutureBuilder<dynamic>(
-                                        future: prediction('DOGE'),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            return Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.04,
-                                                decoration: BoxDecoration(
-                                                  gradient: bgGradient(
-                                                      snapshot.data.toString()),
-                                                  border: Border.all(
-                                                      color:
-                                                          Colors.transparent),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  boxShadow: boxShadow(
-                                                      snapshot.data.toString()),
-                                                ),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.3,
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  snapshot.data.toString(),
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ));
-                                          } else if (snapshot.hasError) {
-                                            return Text(
-                                                'Error: ${snapshot.error}');
-                                          }
-                                          return const Text("");
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            onPressed: () async {
-                              Navigator.of(context).push(PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: const Market("DOGE")));
-                            },
-                            style: buttonstyle,
+                              )
+                            ],
                           ),
-                          // margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                          height: 80,
+                          onPressed: () {
+                            Navigator.of(context).push(PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: const Market("XRP")));
+                          },
+                          style: buttonstyle,
                         ),
-                      ],
-                    ),
+                        height: 80,
+                      ),
+                      Container(
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(color: Colors.white30))),
+                        child: ElevatedButton(
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Image.asset(
+                                  'assets/images/ADA.png',
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.06,
+                                ),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .7,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              "ADA",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17),
+                                            ),
+                                            Text(
+                                              " Cardano",
+                                              style: TextStyle(
+                                                  fontSize: 17,
+                                                  color: Colors.white70),
+                                            ),
+                                          ],
+                                        ),
+                                        FutureBuilder<dynamic>(
+                                          future: cryptocurrent("ADA"),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                '\$' +
+                                                    snapshot.data
+                                                        .toStringAsFixed(3),
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.white70),
+                                              );
+                                            } else if (snapshot.hasError) {
+                                              return Text(
+                                                  'Error: ${snapshot.error}');
+                                            }
+                                            return const Text("");
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    FutureBuilder<dynamic>(
+                                      future: prediction('ADA'),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.04,
+                                              decoration: BoxDecoration(
+                                                gradient: bgGradient(
+                                                    snapshot.data.toString()),
+                                                border: Border.all(
+                                                    color: Colors.transparent),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                boxShadow: boxShadow(
+                                                    snapshot.data.toString()),
+                                              ),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.3,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                snapshot.data.toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ));
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                              'Error: ${snapshot.error}');
+                                        }
+                                        return const Text("");
+                                      },
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: const Market("ADA")));
+                          },
+                          style: buttonstyle,
+                        ),
+                        height: 80,
+                      ),
+                      Container(
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(color: Colors.white30))),
+                        child: ElevatedButton(
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Image.asset(
+                                  'assets/images/DOGE.png',
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.06,
+                                ),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .7,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              "DOGE",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17),
+                                            ),
+                                            Text(
+                                              " Dogecoin",
+                                              style: TextStyle(
+                                                  fontSize: 17,
+                                                  color: Colors.white70),
+                                            ),
+                                          ],
+                                        ),
+                                        FutureBuilder<dynamic>(
+                                          future: cryptocurrent("DOGE"),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                '\$' +
+                                                    snapshot.data
+                                                        .toStringAsFixed(3),
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.white70),
+                                              );
+                                            } else if (snapshot.hasError) {
+                                              return Text(
+                                                  'Error: ${snapshot.error}');
+                                            }
+                                            return const Text("");
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    FutureBuilder<dynamic>(
+                                      future: prediction('DOGE'),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.04,
+                                              decoration: BoxDecoration(
+                                                gradient: bgGradient(
+                                                    snapshot.data.toString()),
+                                                border: Border.all(
+                                                    color: Colors.transparent),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                boxShadow: boxShadow(
+                                                    snapshot.data.toString()),
+                                              ),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.3,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                snapshot.data.toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ));
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                              'Error: ${snapshot.error}');
+                                        }
+                                        return const Text("");
+                                      },
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          onPressed: () async {
+                            Navigator.of(context).push(PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: const Market("DOGE")));
+                          },
+                          style: buttonstyle,
+                        ),
+                        height: 80,
+                      ),
+                    ],
                   ),
                 ),
               ),

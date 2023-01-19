@@ -29,20 +29,20 @@ class _MarketState extends State<Market> {
   var apidata;
   Dio dio = Dio();
   final List<Color> gradientColors2 = [
-    const Color(0xfffe036a),
-    const Color(0xfffe036a),
+    Color.fromARGB(255, 238, 0, 255),
+    Color.fromARGB(255, 238, 0, 255),
   ];
   final List<Color> gradientColors = [
-    const Color(0xff8cfb69),
-    const Color(0xff8cfb69),
+    Color.fromARGB(255, 0, 255, 208),
+    Color.fromARGB(255, 0, 255, 208),
   ];
   final List<Color> gradientColors3 = [
-    const Color(0xff8cfb69),
-    Color(0xff03045e)
+    Color.fromARGB(255, 0, 164, 134),
+    const Color(0xff03045e)
   ];
   final List<Color> gradientColors4 = [
-    const Color(0xfffe036a),
-    Color(0xff03045e)
+    Color.fromARGB(255, 137, 3, 146),
+    const Color(0xff03045e)
   ];
 
   @override
@@ -66,7 +66,6 @@ class _MarketState extends State<Market> {
       double value = (valueprice[74] * 10000).round() / 10000;
       maxi = valueprice.cast<double>();
 
-      print(maximumprice);
       current = value.toString();
       pricedata = List.generate(40, (index) {
         double value = (valueprice[index + 35] * 10000).round() / 10000;
@@ -76,12 +75,11 @@ class _MarketState extends State<Market> {
       });
     }
     for (int i = 35; i < valuepreds.length; i++) {
-      predsdata = List.generate(40, (index) {
-        double value = (valuepreds[index + 35] * 10000).round() / 10000;
+      predsdata = List.generate(41, (index) {
+        double value = (valuepreds[index + 34] * 10000).round() / 10000;
         maxi = valuepreds.cast<double>();
         maximumpreds = maxi.getRange(35, 75).reduce(max);
         minimumpreds = maxi.getRange(35, 75).reduce(min);
-        print(maximumpreds);
         return FlSpot(index.toDouble(), value);
       });
     }
@@ -108,7 +106,7 @@ class _MarketState extends State<Market> {
                 angle: -60 * math.pi / 180,
                 child: Text(
                   DateFormat('dd MMM').format(DateTime.now()),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ));
 
           case 35:
@@ -118,7 +116,7 @@ class _MarketState extends State<Market> {
               child: Text(
                 DateFormat('dd MMM')
                     .format(DateTime.now().subtract(const Duration(days: 5))),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             );
           case 30:
@@ -128,7 +126,7 @@ class _MarketState extends State<Market> {
               child: Text(
                 DateFormat('dd MMM')
                     .format(DateTime.now().subtract(const Duration(days: 10))),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             );
           case 25:
@@ -138,7 +136,7 @@ class _MarketState extends State<Market> {
               child: Text(
                 DateFormat('dd MMM')
                     .format(DateTime.now().subtract(const Duration(days: 15))),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             );
           case 20:
@@ -148,7 +146,7 @@ class _MarketState extends State<Market> {
               child: Text(
                 DateFormat('dd MMM')
                     .format(DateTime.now().subtract(const Duration(days: 20))),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             );
           case 15:
@@ -158,7 +156,7 @@ class _MarketState extends State<Market> {
               child: Text(
                 DateFormat('dd MMM')
                     .format(DateTime.now().subtract(const Duration(days: 25))),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             );
           case 10:
@@ -168,7 +166,7 @@ class _MarketState extends State<Market> {
               child: Text(
                 DateFormat('dd MMM')
                     .format(DateTime.now().subtract(const Duration(days: 30))),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             );
           case 5:
@@ -178,7 +176,7 @@ class _MarketState extends State<Market> {
               child: Text(
                 DateFormat('dd MMM')
                     .format(DateTime.now().subtract(const Duration(days: 35))),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             );
         }
@@ -226,7 +224,7 @@ class _MarketState extends State<Market> {
                                     height: 50,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 SizedBox(
@@ -242,25 +240,13 @@ class _MarketState extends State<Market> {
                             ),
                           ),
                         ),
-                        // Container(
-                        //   width: MediaQuery.of(context).size.width,
-                        //   height: 30,
-                        //   child: const Center(
-                        //     child: Text(
-                        //       'Prediction',
-                        //       style:
-                        //           TextStyle(color: Colors.white, fontSize: 20),
-                        //     ),
-                        //   ),
-                        //   decoration: const BoxDecoration(color: Colors.green),
-                        // ),
                         Expanded(
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
                                 Container(
                                   padding:
-                                      const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                      const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -285,8 +271,8 @@ class _MarketState extends State<Market> {
                                         ],
                                       ),
                                       Container(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 0, 10, 0),
                                         child: FutureBuilder<dynamic>(
                                           future: prediction(widget.cryptoname),
                                           builder: (context, snapshot) {
@@ -340,7 +326,7 @@ class _MarketState extends State<Market> {
                                   child: Container(
                                     margin: const EdgeInsets.all(5),
                                     decoration: BoxDecoration(
-                                      color: Color(0xff03045e),
+                                      color: const Color(0xff03045e),
                                       border:
                                           Border.all(color: Colors.transparent),
                                       borderRadius: BorderRadius.circular(20),
@@ -365,8 +351,8 @@ class _MarketState extends State<Market> {
                                         ),
                                       ],
                                     ),
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 20, 0, 30),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        0, 20, 10, 30),
                                     width: double.infinity,
                                     height:
                                         MediaQuery.of(context).size.height * .3,
@@ -379,12 +365,7 @@ class _MarketState extends State<Market> {
                                                 (minimumpreds * (2 / 100))
                                             : minimumprice -
                                                 (minimumprice * (2 / 100)),
-                                        // maxY: maximumpreds > maximumprice
-                                        //     ? maximumpreds + (maximumpreds * (2 / 100))
-                                        //     : minimumprice + (maximumprice * (2 / 100)),
                                         gridData: FlGridData(
-                                          verticalInterval: 5,
-                                          horizontalInterval: 50,
                                           drawHorizontalLine: true,
                                           show: true,
                                         ),
@@ -398,7 +379,6 @@ class _MarketState extends State<Market> {
                                           ),
                                         ),
                                         lineBarsData: [
-                                          // // The red line
                                           LineChartBarData(
                                               dotData: FlDotData(
                                                 show: false,
@@ -416,7 +396,7 @@ class _MarketState extends State<Market> {
                                                   colors: gradientColors3
                                                       .map(
                                                         (color) => color
-                                                            .withOpacity(0.5),
+                                                            .withOpacity(.8),
                                                       )
                                                       .toList(),
                                                 ),
@@ -430,17 +410,17 @@ class _MarketState extends State<Market> {
                                             barWidth: 2,
                                             gradient: LinearGradient(
                                                 colors: gradientColors2),
-                                            // belowBarData: BarAreaData(
-                                            //   show: true,
-                                            //   gradient: LinearGradient(
-                                            //     begin: Alignment.topCenter,
-                                            //     end: Alignment.bottomCenter,
-                                            //     colors: gradientColors4
-                                            //         .map((color) =>
-                                            //             color.withOpacity(1))
-                                            //         .toList(),
-                                            //   ),
-                                            // ),
+                                            belowBarData: BarAreaData(
+                                              show: true,
+                                              gradient: LinearGradient(
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                                colors: gradientColors4
+                                                    .map((color) =>
+                                                        color.withOpacity(.5))
+                                                    .toList(),
+                                              ),
+                                            ),
                                           )
                                         ],
                                         titlesData: FlTitlesData(
@@ -459,6 +439,37 @@ class _MarketState extends State<Market> {
                                       ),
                                     ),
                                   ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 10,
+                                      width: 10,
+                                      color: Color.fromARGB(255, 0, 255, 208),
+                                    ),
+                                    const Text(
+                                      'Actual',
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      height: 10,
+                                      width: 10,
+                                      color: Color.fromARGB(255, 238, 0, 255),
+                                    ),
+                                    const Text(
+                                      'Prediction',
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.white),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
                                 ),
                                 Container(
                                   padding:
