@@ -6,6 +6,7 @@ import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'controller/crypto_controller.dart';
+import 'package:dcdg/dcdg.dart';
 
 void main() async {
   runApp(const MyHomePage());

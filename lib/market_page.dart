@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class Market extends StatefulWidget {
+  final String cryptoapi;
   final String cryptoname;
-  const Market(this.cryptoname, {Key? key}) : super(key: key);
+  const Market(this.cryptoname, this.cryptoapi, {Key? key}) : super(key: key);
 
   @override
   State<Market> createState() => _MarketState();
@@ -84,9 +85,7 @@ class _MarketState extends State<Market> {
       });
     }
 
-    String url = 'https://api.kucoin.com/api/v1/market/stats?symbol=' +
-        widget.cryptoname +
-        '-USDT';
+    String url = 'http://api.coincap.io/v2/assets/' + widget.cryptoapi;
     Response response = await dio.get(url);
     apidata = response.data;
     loading = false;
@@ -491,19 +490,22 @@ class _MarketState extends State<Market> {
                                       SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.6,
+                                                0.45,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             const Text(
-                                              'High',
+                                              'Change percent',
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   color: Colors.white),
                                             ),
                                             Text(
-                                              '\$' + apidata['data']['high'],
+                                              double.parse(apidata['data']
+                                                          ['changePercent24Hr'])
+                                                      .toStringAsFixed(2) +
+                                                  '%',
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20,
@@ -517,13 +519,16 @@ class _MarketState extends State<Market> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           const Text(
-                                            'Low',
+                                            'Market cap',
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 color: Colors.white),
                                           ),
                                           Text(
-                                            '\$' + apidata['data']['low'],
+                                            '\$' +
+                                                double.parse(apidata['data']
+                                                        ['marketCapUsd'])
+                                                    .toStringAsFixed(2),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20,
@@ -542,7 +547,7 @@ class _MarketState extends State<Market> {
                                       SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.6,
+                                                0.45,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -556,8 +561,8 @@ class _MarketState extends State<Market> {
                                             Text(
                                               '\$' +
                                                   double.parse(apidata['data']
-                                                          ['vol'])
-                                                      .toStringAsFixed(3),
+                                                          ['volumeUsd24Hr'])
+                                                      .toStringAsFixed(2),
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20,
@@ -572,7 +577,7 @@ class _MarketState extends State<Market> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             const Text(
-                                              'Average',
+                                              'Supply',
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   color: Colors.white),
@@ -580,8 +585,8 @@ class _MarketState extends State<Market> {
                                             Text(
                                               '\$' +
                                                   double.parse(apidata['data']
-                                                          ['averagePrice'])
-                                                      .toStringAsFixed(3),
+                                                          ['supply'])
+                                                      .toStringAsFixed(2),
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20,
@@ -612,7 +617,7 @@ class _MarketState extends State<Market> {
     dynamic valuepreds = await preds;
     prices = CryptoController().getCryptoPrice(name);
     dynamic valueprice = await prices;
-    if (valueprice[74] > valuepreds[74]) {
+    if (valueprice[74] < valuepreds[74]) {
       return "Buy";
     } else {
       return "Sell";

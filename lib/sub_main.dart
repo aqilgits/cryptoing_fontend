@@ -559,7 +559,7 @@ class _MainState extends State<Main> {
                           onPressed: () {
                             Navigator.of(context).push(PageTransition(
                                 type: PageTransitionType.rightToLeft,
-                                child: const Market("BTC")));
+                                child: const Market("BTC", "bitcoin")));
                           },
                           style: buttonstyle,
                         ),
@@ -673,7 +673,7 @@ class _MainState extends State<Main> {
                           onPressed: () {
                             Navigator.of(context).push(PageTransition(
                                 type: PageTransitionType.rightToLeft,
-                                child: const Market("ETH")));
+                                child: const Market("ETH", "ethereum")));
                           },
                           style: buttonstyle,
                         ),
@@ -787,7 +787,7 @@ class _MainState extends State<Main> {
                           onPressed: () {
                             Navigator.of(context).push(PageTransition(
                                 type: PageTransitionType.rightToLeft,
-                                child: const Market("XRP")));
+                                child: const Market("XRP", "xrp")));
                           },
                           style: buttonstyle,
                         ),
@@ -901,7 +901,7 @@ class _MainState extends State<Main> {
                           onPressed: () {
                             Navigator.of(context).push(PageTransition(
                                 type: PageTransitionType.rightToLeft,
-                                child: const Market("ADA")));
+                                child: const Market("ADA", "cardano")));
                           },
                           style: buttonstyle,
                         ),
@@ -1015,7 +1015,7 @@ class _MainState extends State<Main> {
                           onPressed: () async {
                             Navigator.of(context).push(PageTransition(
                                 type: PageTransitionType.rightToLeft,
-                                child: const Market("DOGE")));
+                                child: const Market("DOGE", "dogecoin")));
                           },
                           style: buttonstyle,
                         ),
@@ -1036,7 +1036,7 @@ class _MainState extends State<Main> {
     dynamic valuepreds = await preds;
     prices = CryptoController().getCryptoPrice(name);
     dynamic valueprice = await prices;
-    if (valueprice[74] > valuepreds[74]) {
+    if (valueprice[74] < valuepreds[74]) {
       return "Buy";
     } else {
       return "Sell";
