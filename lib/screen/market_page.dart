@@ -63,27 +63,24 @@ class _MarketState extends State<Market> {
     preds = CryptoController().getCryptoPreds(widget.cryptoname);
     dynamic valuepreds = await preds;
 
-    for (int i = 35; i < valueprice.length; i++) {
-      double value = (valueprice[74] * 10000).round() / 10000;
-      maxi = valueprice.cast<double>();
+    double value = (valueprice[44] * 10000).round() / 10000;
+    maxi = valueprice.cast<double>();
 
-      current = value.toString();
-      pricedata = List.generate(40, (index) {
-        double value = (valueprice[index + 35] * 10000).round() / 10000;
-        maximumprice = maxi.getRange(35, 75).reduce(max);
-        minimumprice = maxi.getRange(35, 75).reduce(min);
-        return FlSpot(index.toDouble(), value);
-      });
-    }
-    for (int i = 35; i < valuepreds.length; i++) {
-      predsdata = List.generate(41, (index) {
-        double value = (valuepreds[index + 34] * 10000).round() / 10000;
-        maxi = valuepreds.cast<double>();
-        maximumpreds = maxi.getRange(35, 75).reduce(max);
-        minimumpreds = maxi.getRange(35, 75).reduce(min);
-        return FlSpot(index.toDouble(), value);
-      });
-    }
+    current = value.toString();
+    pricedata = List.generate(40, (index) {
+      double value = (valueprice[index + 5] * 10000).round() / 10000;
+      maximumprice = maxi.getRange(15, 45).reduce(max);
+      minimumprice = maxi.getRange(15, 45).reduce(min);
+      return FlSpot(index.toDouble(), value);
+    });
+
+    predsdata = List.generate(60, (index) {
+      double value = (valuepreds[index + 14] * 10000).round() / 10000;
+      maxi = valuepreds.cast<double>();
+      maximumpreds = maxi.getRange(35, 75).reduce(max);
+      minimumpreds = maxi.getRange(35, 75).reduce(min);
+      return FlSpot((index.toDouble() + 10), value);
+    });
 
     String url = 'http://api.coincap.io/v2/assets/' + widget.cryptoapi;
     Response response = await dio.get(url);
@@ -99,12 +96,75 @@ class _MarketState extends State<Market> {
       getTitlesWidget: (value, meta) {
         // String text = '';
         switch (value.toInt()) {
-          case 40:
+          case 75:
+            return Transform.rotate(
+                alignment: Alignment.center,
+                angle: -60 * math.pi / 180,
+                child: Text(
+                  DateFormat('dd MMM')
+                      .format(DateTime.now().add(const Duration(days: 30))),
+                  style: const TextStyle(color: Colors.white),
+                ));
+          case 70:
+            return Transform.rotate(
+                alignment: Alignment.center,
+                angle: -60 * math.pi / 180,
+                child: Text(
+                  DateFormat('dd MMM')
+                      .format(DateTime.now().add(const Duration(days: 25))),
+                  style: const TextStyle(color: Colors.white),
+                ));
+          case 65:
+            return Transform.rotate(
+                alignment: Alignment.center,
+                angle: -60 * math.pi / 180,
+                child: Text(
+                  DateFormat('dd MMM')
+                      .format(DateTime.now().add(const Duration(days: 20))),
+                  style: const TextStyle(color: Colors.white),
+                ));
+          case 60:
+            return Transform.rotate(
+                alignment: Alignment.center,
+                angle: -60 * math.pi / 180,
+                child: Text(
+                  DateFormat('dd MMM')
+                      .format(DateTime.now().add(const Duration(days: 15))),
+                  style: const TextStyle(color: Colors.white),
+                ));
+          case 55:
+            return Transform.rotate(
+                alignment: Alignment.center,
+                angle: -60 * math.pi / 180,
+                child: Text(
+                  DateFormat('dd MMM')
+                      .format(DateTime.now().add(const Duration(days: 10))),
+                  style: const TextStyle(color: Colors.white),
+                ));
+          case 50:
+            return Transform.rotate(
+                alignment: Alignment.center,
+                angle: -60 * math.pi / 180,
+                child: Text(
+                  DateFormat('dd MMM')
+                      .format(DateTime.now().add(const Duration(days: 5))),
+                  style: const TextStyle(color: Colors.white),
+                ));
+          case 45:
             return Transform.rotate(
                 alignment: Alignment.center,
                 angle: -60 * math.pi / 180,
                 child: Text(
                   DateFormat('dd MMM').format(DateTime.now()),
+                  style: const TextStyle(color: Colors.white),
+                ));
+          case 40:
+            return Transform.rotate(
+                alignment: Alignment.center,
+                angle: -60 * math.pi / 180,
+                child: Text(
+                  DateFormat('dd MMM')
+                      .format(DateTime.now().subtract(const Duration(days: 5))),
                   style: const TextStyle(color: Colors.white),
                 ));
 
@@ -114,7 +174,7 @@ class _MarketState extends State<Market> {
               angle: -60 * math.pi / 180,
               child: Text(
                 DateFormat('dd MMM')
-                    .format(DateTime.now().subtract(const Duration(days: 5))),
+                    .format(DateTime.now().subtract(const Duration(days: 10))),
                 style: const TextStyle(color: Colors.white),
               ),
             );
@@ -124,7 +184,7 @@ class _MarketState extends State<Market> {
               angle: -60 * math.pi / 180,
               child: Text(
                 DateFormat('dd MMM')
-                    .format(DateTime.now().subtract(const Duration(days: 10))),
+                    .format(DateTime.now().subtract(const Duration(days: 15))),
                 style: const TextStyle(color: Colors.white),
               ),
             );
@@ -134,7 +194,7 @@ class _MarketState extends State<Market> {
               angle: -60 * math.pi / 180,
               child: Text(
                 DateFormat('dd MMM')
-                    .format(DateTime.now().subtract(const Duration(days: 15))),
+                    .format(DateTime.now().subtract(const Duration(days: 20))),
                 style: const TextStyle(color: Colors.white),
               ),
             );
@@ -144,7 +204,7 @@ class _MarketState extends State<Market> {
               angle: -60 * math.pi / 180,
               child: Text(
                 DateFormat('dd MMM')
-                    .format(DateTime.now().subtract(const Duration(days: 20))),
+                    .format(DateTime.now().subtract(const Duration(days: 25))),
                 style: const TextStyle(color: Colors.white),
               ),
             );
@@ -154,7 +214,7 @@ class _MarketState extends State<Market> {
               angle: -60 * math.pi / 180,
               child: Text(
                 DateFormat('dd MMM')
-                    .format(DateTime.now().subtract(const Duration(days: 25))),
+                    .format(DateTime.now().subtract(const Duration(days: 30))),
                 style: const TextStyle(color: Colors.white),
               ),
             );
@@ -164,7 +224,7 @@ class _MarketState extends State<Market> {
               angle: -60 * math.pi / 180,
               child: Text(
                 DateFormat('dd MMM')
-                    .format(DateTime.now().subtract(const Duration(days: 30))),
+                    .format(DateTime.now().subtract(const Duration(days: 35))),
                 style: const TextStyle(color: Colors.white),
               ),
             );
@@ -174,7 +234,7 @@ class _MarketState extends State<Market> {
               angle: -60 * math.pi / 180,
               child: Text(
                 DateFormat('dd MMM')
-                    .format(DateTime.now().subtract(const Duration(days: 35))),
+                    .format(DateTime.now().subtract(const Duration(days: 40))),
                 style: const TextStyle(color: Colors.white),
               ),
             );
@@ -273,7 +333,8 @@ class _MarketState extends State<Market> {
                                         padding: const EdgeInsets.fromLTRB(
                                             0, 0, 10, 0),
                                         child: FutureBuilder<dynamic>(
-                                          future: prediction(widget.cryptoname),
+                                          future: CryptoController()
+                                              .prediction(widget.cryptoname),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               return Container(
@@ -358,7 +419,7 @@ class _MarketState extends State<Market> {
                                     child: LineChart(
                                       LineChartData(
                                         minX: 0,
-                                        maxX: 40,
+                                        // maxX: 40,
                                         minY: minimumpreds < minimumprice
                                             ? minimumpreds -
                                                 (minimumpreds * (2 / 100))
@@ -609,19 +670,6 @@ class _MarketState extends State<Market> {
               ),
       ),
     );
-  }
-
-  prediction(String name) async {
-    preds = CryptoController().getCryptoPreds(name);
-
-    dynamic valuepreds = await preds;
-    prices = CryptoController().getCryptoPrice(name);
-    dynamic valueprice = await prices;
-    if (valueprice[74] < valuepreds[74]) {
-      return "Buy";
-    } else {
-      return "Sell";
-    }
   }
 
   LinearGradient bgGradient(String name) {

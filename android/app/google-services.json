@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1067509419687",
+    "project_id": "cryptoing-3e094",
+    "storage_bucket": "cryptoing-3e094.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067509419687:android:55b02d2c92229283bed582",
+        "android_client_info": {
+          "package_name": "com.lukmanaqil.cryptoingfontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1067509419687-1p42anqsunhds053jjrn3j9nagdc3khf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUQwJPgBj4nlWh8nTKxgeAOTjXP1MI7RA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1067509419687-1p42anqsunhds053jjrn3j9nagdc3khf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

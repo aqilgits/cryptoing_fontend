@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cryptoingfontend/controller/crypto_controller.dart';
-import 'package:cryptoingfontend/market_page.dart';
+import 'package:cryptoingfontend/screen/market_page.dart';
 import 'package:dio/dio.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _MainState extends State<Main> {
   late Future prices;
   late Future preds;
   bool error = false;
-  bool loading = false;
+  bool loading = true;
   String errmsg = "";
   var apidata;
 
@@ -48,7 +49,6 @@ class _MainState extends State<Main> {
   ];
   @override
   void initState() {
-    // getData2();
     getData();
     super.initState();
   }
@@ -65,47 +65,44 @@ class _MainState extends State<Main> {
     prices = CryptoController().getCryptoPrice('BTC');
     dynamic valuepricebtc = await prices;
 
-    for (int i = 35; i < valuepricebtc.length; i++) {
-      BTC = List.generate(40, (index) {
-        double value = (valuepricebtc[index + 35] * 10000).round() / 10000;
-        return FlSpot(index.toDouble(), value);
-      });
-    }
+    BTC = List.generate(40, (index) {
+      double value = (valuepricebtc[index + 35] * 10000).round() / 10000;
+      return FlSpot(index.toDouble(), value);
+    });
+
     prices = CryptoController().getCryptoPrice('ETH');
     dynamic valuepriceeth = await prices;
-    for (int i = 35; i < valuepriceeth.length; i++) {
-      ETH = List.generate(40, (index) {
-        double value = (valuepriceeth[index + 35] * 10000).round() / 10000;
-        return FlSpot(index.toDouble(), value);
-      });
-    }
+    ETH = List.generate(40, (index) {
+      double value = (valuepriceeth[index + 5] * 10000).round() / 10000;
+      return FlSpot(index.toDouble(), value);
+    });
+
     prices = CryptoController().getCryptoPrice('XRP');
     dynamic valuepricexrp = await prices;
-    for (int i = 35; i < valuepricexrp.length; i++) {
-      XRP = List.generate(40, (index) {
-        double value = (valuepricexrp[index + 35] * 10000).round() / 10000;
-        return FlSpot(index.toDouble(), value);
-      });
-    }
+    XRP = List.generate(40, (index) {
+      double value = (valuepricexrp[index + 5] * 10000).round() / 10000;
+      return FlSpot(index.toDouble(), value);
+    });
+
     prices = CryptoController().getCryptoPrice('ADA');
     dynamic valuepriceada = await prices;
-    for (int i = 35; i < valuepriceada.length; i++) {
-      ADA = List.generate(40, (index) {
-        double value = (valuepriceada[index + 35] * 10000).round() / 10000;
-        return FlSpot(index.toDouble(), value);
-      });
-    }
+    ADA = List.generate(40, (index) {
+      double value = (valuepriceada[index + 5] * 10000).round() / 10000;
+      return FlSpot(index.toDouble(), value);
+    });
+
     prices = CryptoController().getCryptoPrice('DOGE');
     dynamic valuepricedoge = await prices;
-    for (int i = 35; i < valuepricedoge.length; i++) {
-      DOGE = List.generate(40, (index) {
-        double value = (valuepricedoge[index + 35] * 10000).round() / 10000;
-        return FlSpot(index.toDouble(), value);
-      });
-    }
+    DOGE = List.generate(40, (index) {
+      double value = (valuepricedoge[index + 5] * 10000).round() / 10000;
+      return FlSpot(index.toDouble(), value);
+    });
 
-    loading = false;
-    setState(() {});
+    setState(() {
+      loading = false;
+    });
+    // }
+    // });
   }
 
   @override
@@ -306,7 +303,8 @@ class _MainState extends State<Main> {
                                               .7,
                                           alignment: Alignment.topLeft,
                                           child: FutureBuilder<dynamic>(
-                                            future: cryptocurrent(
+                                            future: CryptoController()
+                                                .cryptocurrent(
                                               i == BTC
                                                   ? 'BTC'
                                                   : i == ETH
@@ -495,7 +493,8 @@ class _MainState extends State<Main> {
                                           ],
                                         ),
                                         FutureBuilder<dynamic>(
-                                          future: cryptocurrent("BTC"),
+                                          future: CryptoController()
+                                              .cryptocurrent("BTC"),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               return Text(
@@ -516,7 +515,8 @@ class _MainState extends State<Main> {
                                       ],
                                     ),
                                     FutureBuilder<dynamic>(
-                                      future: prediction('BTC'),
+                                      future:
+                                          CryptoController().prediction('BTC'),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
                                           return Container(
@@ -609,7 +609,8 @@ class _MainState extends State<Main> {
                                           ],
                                         ),
                                         FutureBuilder<dynamic>(
-                                          future: cryptocurrent("ETH"),
+                                          future: CryptoController()
+                                              .cryptocurrent("ETH"),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               return Text(
@@ -630,7 +631,8 @@ class _MainState extends State<Main> {
                                       ],
                                     ),
                                     FutureBuilder<dynamic>(
-                                      future: prediction('ETH'),
+                                      future:
+                                          CryptoController().prediction('ETH'),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
                                           return Container(
@@ -723,7 +725,8 @@ class _MainState extends State<Main> {
                                           ],
                                         ),
                                         FutureBuilder<dynamic>(
-                                          future: cryptocurrent("XRP"),
+                                          future: CryptoController()
+                                              .cryptocurrent("XRP"),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               return Text(
@@ -744,7 +747,8 @@ class _MainState extends State<Main> {
                                       ],
                                     ),
                                     FutureBuilder<dynamic>(
-                                      future: prediction('XRP'),
+                                      future:
+                                          CryptoController().prediction('XRP'),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
                                           return Container(
@@ -837,7 +841,8 @@ class _MainState extends State<Main> {
                                           ],
                                         ),
                                         FutureBuilder<dynamic>(
-                                          future: cryptocurrent("ADA"),
+                                          future: CryptoController()
+                                              .cryptocurrent("ADA"),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               return Text(
@@ -858,7 +863,8 @@ class _MainState extends State<Main> {
                                       ],
                                     ),
                                     FutureBuilder<dynamic>(
-                                      future: prediction('ADA'),
+                                      future:
+                                          CryptoController().prediction('ADA'),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
                                           return Container(
@@ -951,7 +957,8 @@ class _MainState extends State<Main> {
                                           ],
                                         ),
                                         FutureBuilder<dynamic>(
-                                          future: cryptocurrent("DOGE"),
+                                          future: CryptoController()
+                                              .cryptocurrent("DOGE"),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               return Text(
@@ -972,7 +979,8 @@ class _MainState extends State<Main> {
                                       ],
                                     ),
                                     FutureBuilder<dynamic>(
-                                      future: prediction('DOGE'),
+                                      future:
+                                          CryptoController().prediction('DOGE'),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
                                           return Container(
@@ -1028,25 +1036,6 @@ class _MainState extends State<Main> {
             ],
             mainAxisAlignment: MainAxisAlignment.start,
           );
-  }
-
-  prediction(String name) async {
-    preds = CryptoController().getCryptoPreds(name);
-
-    dynamic valuepreds = await preds;
-    prices = CryptoController().getCryptoPrice(name);
-    dynamic valueprice = await prices;
-    if (valueprice[74] < valuepreds[74]) {
-      return "Buy";
-    } else {
-      return "Sell";
-    }
-  }
-
-  cryptocurrent(String name) async {
-    prices = CryptoController().getCryptoPrice(name);
-    dynamic valueprice = await prices;
-    return valueprice[74];
   }
 
   LinearGradient bgGradient(String name) {

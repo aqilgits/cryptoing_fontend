@@ -148,7 +148,11 @@ class Help extends StatelessWidget {
             ),
             const Text(
               'It depends on the type of strategy you use in investing. If it’s long term you might not be able to get immediate profit, but it is a less risk option. If it’s short term you can get profit as fast as a few days or even a few hours, but you can lose a lot from this too.',
-              style: TextStyle(fontSize: 17, color: Colors.white),
+              style: TextStyle(
+                fontSize: 17,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.justify,
             ),
             const SizedBox(
               height: 20,
@@ -167,6 +171,7 @@ class Help extends StatelessWidget {
             const Text(
               'Diversify your portfolio by investing in multiple coins at once rather than just one coin but with a big amount of money.',
               style: TextStyle(fontSize: 17, color: Colors.white),
+              textAlign: TextAlign.justify,
             ),
           ],
         ),

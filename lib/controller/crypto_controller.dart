@@ -5,23 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class CryptoController with ChangeNotifier {
+  late Future prices;
+  late Future preds;
   final url = 'http://10.0.2.2:5000/crypto';
   Future<List> getCryptoPrice(String cryptoName) async {
     List price = [];
     dynamic response;
     try {
-      response = await http.get(Uri.parse('$url/$cryptoName'));
+      response =
+          await http.get(Uri.parse('http://10.0.2.2:5000/crypto/$cryptoName'));
       Future<List> fetchPrice() async {
         List<double> price = [];
         for (var i = 0; i < 75; i++) {
           price.add(jsonDecode(response.body)[i]['price'] as double);
         }
-        // print(price);
         return price;
       }
 
       price = await fetchPrice();
-      // print(price);
 
       print('done connect');
     } catch (e) {
@@ -34,7 +35,8 @@ class CryptoController with ChangeNotifier {
     List preds = [];
     dynamic response;
     try {
-      response = await http.get(Uri.parse('$url/$cryptoName'));
+      response =
+          await http.get(Uri.parse('http://10.0.2.2:5000/crypto/$cryptoName'));
 
       Future<List> fetchPreds() async {
         List<double> preds = [];
@@ -57,14 +59,14 @@ class CryptoController with ChangeNotifier {
     List num = [];
     dynamic response;
     try {
-      response = await http.get(Uri.parse('$url/$cryptoName'));
+      response =
+          await http.get(Uri.parse('http://10.0.2.2:5000/crypto/$cryptoName'));
 
       Future<List> fetchNum() async {
         List<int> num = [];
         for (var i = 0; i < 76; i++) {
           num.add(jsonDecode(response.body)[i]['num'] as int);
         }
-        print(num);
         return num;
       }
 
@@ -75,5 +77,28 @@ class CryptoController with ChangeNotifier {
       print(e);
     }
     return num;
+  }
+
+  prediction(String name) async {
+    preds = CryptoController().getCryptoPreds(name);
+
+    dynamic valuepreds = await preds;
+    prices = CryptoController().getCryptoPrice(name);
+    dynamic valueprice = await prices;
+    if (valueprice[44] < valuepreds[74]) {
+      print(valuepreds[74]);
+      print(valueprice[44]);
+      return "Buy";
+    } else {
+      print(valuepreds[74]);
+      print(valueprice[44]);
+      return "Sell";
+    }
+  }
+
+  cryptocurrent(String name) async {
+    prices = CryptoController().getCryptoPrice(name);
+    dynamic valueprice = await prices;
+    return valueprice[44];
   }
 }
