@@ -58,7 +58,8 @@ class _MainState extends State<Main> {
       loading = true;
     });
 
-    String url = "http://10.0.2.2:5000/news";
+    String url =
+        "http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/news";
     Response response = await dio.get(url);
     // for (var crypto in crypspot) {
     apidata = response.data; //get JSON decoded data from response

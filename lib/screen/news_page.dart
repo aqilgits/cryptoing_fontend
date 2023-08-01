@@ -38,12 +38,14 @@ class _NewsState extends State<News> {
       loading = true;
     });
 
-    String url = "http://10.0.2.2:5000/news";
+    String url =
+        "http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/news";
 
     Response response = await dio.get(url);
     apidata = response.data; //get JSON decoded data from response
 
-    String url2 = "http://10.0.2.2:5000/news/percentage";
+    String url2 =
+        "http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/news/percentage";
 
     Response response2 = await dio.get(url2);
     apidata2 = response2.data; //get JSON decoded data from response
@@ -94,63 +96,55 @@ class _NewsState extends State<News> {
                   children: [
                     SizedBox(
                       height: MediaQuery.of(context).size.height * .2,
-                      child: Expanded(
-                        child: SizedBox(
-                            height: 100,
-                            child: PieChart(PieChartData(sections: [
-                              PieChartSectionData(
-                                borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 0, 255, 26),
-                                    width: 2),
-                                titleStyle:
-                                    const TextStyle(color: Colors.white),
-                                color: Colors.green,
-                                value: apidata2[0]['positive'].toDouble(),
-                                radius: apidata2[0]['positive'].toDouble() <
-                                            apidata2[0]['negative']
-                                                .toDouble() ||
-                                        apidata2[0]['positive'].toDouble() <
-                                            apidata2[0]['neutral'].toDouble()
-                                    ? 40
-                                    : 50,
-                                title: apidata2[0]['positive'].toString() + '%',
-                              ),
-                              PieChartSectionData(
-                                borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 255, 0, 0),
-                                    width: 2),
-                                titleStyle:
-                                    const TextStyle(color: Colors.white),
-                                color: Colors.red,
-                                value: apidata2[0]['negative'].toDouble(),
-                                radius: apidata2[0]['negative'].toDouble() <
-                                            apidata2[0]['positive']
-                                                .toDouble() ||
-                                        apidata2[0]['negative'].toDouble() <
-                                            apidata2[0]['neutral'].toDouble()
-                                    ? 40
-                                    : 50,
-                                title: apidata2[0]['negative'].toString() + '%',
-                              ),
-                              PieChartSectionData(
-                                borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    width: 2),
-                                titleStyle:
-                                    const TextStyle(color: Colors.white),
-                                color: Colors.grey,
-                                value: apidata2[0]['neutral'].toDouble(),
-                                radius: apidata2[0]['neutral'].toDouble() <
-                                            apidata2[0]['negative']
-                                                .toDouble() ||
-                                        apidata2[0]['neutral'].toDouble() <
-                                            apidata2[0]['positive'].toDouble()
-                                    ? 40
-                                    : 50,
-                                title: apidata2[0]['neutral'].toString() + '%',
-                              ),
-                            ]))),
-                      ),
+                      child: SizedBox(
+                          height: 100,
+                          child: PieChart(PieChartData(sections: [
+                            PieChartSectionData(
+                              borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 0, 255, 26),
+                                  width: 2),
+                              titleStyle: const TextStyle(color: Colors.white),
+                              color: Colors.green,
+                              value: apidata2[0]['positive'].toDouble(),
+                              radius: apidata2[0]['positive'].toDouble() <
+                                          apidata2[0]['negative'].toDouble() ||
+                                      apidata2[0]['positive'].toDouble() <
+                                          apidata2[0]['neutral'].toDouble()
+                                  ? 40
+                                  : 50,
+                              title: apidata2[0]['positive'].toString() + '%',
+                            ),
+                            PieChartSectionData(
+                              borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 255, 0, 0),
+                                  width: 2),
+                              titleStyle: const TextStyle(color: Colors.white),
+                              color: Colors.red,
+                              value: apidata2[0]['negative'].toDouble(),
+                              radius: apidata2[0]['negative'].toDouble() <
+                                          apidata2[0]['positive'].toDouble() ||
+                                      apidata2[0]['negative'].toDouble() <
+                                          apidata2[0]['neutral'].toDouble()
+                                  ? 40
+                                  : 50,
+                              title: apidata2[0]['negative'].toString() + '%',
+                            ),
+                            PieChartSectionData(
+                              borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  width: 2),
+                              titleStyle: const TextStyle(color: Colors.white),
+                              color: Colors.grey,
+                              value: apidata2[0]['neutral'].toDouble(),
+                              radius: apidata2[0]['neutral'].toDouble() <
+                                          apidata2[0]['negative'].toDouble() ||
+                                      apidata2[0]['neutral'].toDouble() <
+                                          apidata2[0]['positive'].toDouble()
+                                  ? 40
+                                  : 50,
+                              title: apidata2[0]['neutral'].toString() + '%',
+                            ),
+                          ]))),
                     ),
                     Container(
                       height: 30,

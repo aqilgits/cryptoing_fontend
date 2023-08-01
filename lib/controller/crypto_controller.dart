@@ -7,13 +7,14 @@ import 'package:http/http.dart' as http;
 class CryptoController with ChangeNotifier {
   late Future prices;
   late Future preds;
-  final url = 'http://10.0.2.2:5000/crypto';
+  final url =
+      'http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/crypto';
   Future<List> getCryptoPrice(String cryptoName) async {
     List price = [];
     dynamic response;
     try {
-      response =
-          await http.get(Uri.parse('http://10.0.2.2:5000/crypto/$cryptoName'));
+      response = await http.get(Uri.parse(
+          'http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/crypto/$cryptoName'));
       Future<List> fetchPrice() async {
         List<double> price = [];
         for (var i = 0; i < 75; i++) {
@@ -35,8 +36,8 @@ class CryptoController with ChangeNotifier {
     List preds = [];
     dynamic response;
     try {
-      response =
-          await http.get(Uri.parse('http://10.0.2.2:5000/crypto/$cryptoName'));
+      response = await http.get(Uri.parse(
+          'http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/crypto/$cryptoName'));
 
       Future<List> fetchPreds() async {
         List<double> preds = [];
@@ -59,8 +60,8 @@ class CryptoController with ChangeNotifier {
     List num = [];
     dynamic response;
     try {
-      response =
-          await http.get(Uri.parse('http://10.0.2.2:5000/crypto/$cryptoName'));
+      response = await http.get(Uri.parse(
+          'http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/crypto/$cryptoName'));
 
       Future<List> fetchNum() async {
         List<int> num = [];

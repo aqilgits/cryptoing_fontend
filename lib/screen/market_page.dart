@@ -268,319 +268,343 @@ class _MarketState extends State<Market> {
                   radius: 0.8,
                 )),
                 child: SafeArea(
-                  child: Expanded(
-                    child: Column(
-                      children: [
-                        Center(
-                          child: Container(
-                            padding: const EdgeInsets.all(5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  child: Image.asset(
-                                    name,
-                                    height: 50,
-                                  ),
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                child: Image.asset(
+                                  name,
+                                  height: 50,
                                 ),
-                                const SizedBox(
-                                  width: 10,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                child: Text(
+                                  widget.cryptoname,
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
                                 ),
-                                SizedBox(
-                                  child: Text(
-                                    widget.cryptoname,
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                )
-                              ],
-                            ),
+                              )
+                            ],
                           ),
                         ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            'Current price',
-                                            style: TextStyle(
-                                                fontSize: 25,
-                                                color: Colors.white),
-                                          ),
-                                          Text(
-                                            '\$' + current,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 25,
-                                                color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 0, 10, 0),
-                                        child: FutureBuilder<dynamic>(
-                                          future: CryptoController()
-                                              .prediction(widget.cryptoname),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              return Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.04,
-                                                  decoration: BoxDecoration(
-                                                    gradient: bgGradient(
-                                                        snapshot.data
-                                                            .toString()),
-                                                    border: Border.all(
-                                                        color:
-                                                            Colors.transparent),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    boxShadow: boxShadow(
-                                                        snapshot.data
-                                                            .toString()),
-                                                  ),
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.3,
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    snapshot.data.toString(),
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  ));
-                                              ;
-                                            } else if (snapshot.hasError) {
-                                              return Text(
-                                                  'Error: ${snapshot.error}');
-                                            }
-                                            return const Text("");
-                                          },
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Current price',
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              color: Colors.white),
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * .5,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                  child: Container(
-                                    margin: const EdgeInsets.all(5),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xff03045e),
-                                      border:
-                                          Border.all(color: Colors.transparent),
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.white,
-                                          offset: Offset(
-                                            -3.0,
-                                            -3.0,
-                                          ),
-                                          blurRadius: 5.0,
-                                          spreadRadius: 0.8,
-                                        ),
-                                        BoxShadow(
-                                          color: Color(0xff0077b6),
-                                          offset: Offset(
-                                            3.0,
-                                            3.0,
-                                          ),
-                                          blurRadius: 5.0,
-                                          spreadRadius: 0.8,
+                                        Text(
+                                          '\$' + current,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 25,
+                                              color: Colors.white),
                                         ),
                                       ],
                                     ),
-                                    padding: const EdgeInsets.fromLTRB(
-                                        0, 20, 10, 30),
-                                    width: double.infinity,
-                                    height:
-                                        MediaQuery.of(context).size.height * .3,
-                                    child: LineChart(
-                                      LineChartData(
-                                        minX: 0,
-                                        // maxX: 40,
-                                        minY: minimumpreds < minimumprice
-                                            ? minimumpreds -
-                                                (minimumpreds * (2 / 100))
-                                            : minimumprice -
-                                                (minimumprice * (2 / 100)),
-                                        gridData: FlGridData(
-                                          drawHorizontalLine: true,
-                                          show: true,
-                                        ),
-                                        borderData: FlBorderData(
-                                          show: true,
-                                          border: const Border(
-                                            top: BorderSide.none,
-                                            right: BorderSide.none,
-                                            left: BorderSide.none,
-                                            bottom: BorderSide.none,
-                                          ),
-                                        ),
-                                        lineBarsData: [
-                                          LineChartBarData(
-                                              dotData: FlDotData(
-                                                show: false,
-                                              ),
-                                              spots: pricedata,
-                                              isCurved: true,
-                                              barWidth: 2,
-                                              gradient: LinearGradient(
-                                                  colors: gradientColors),
-                                              belowBarData: BarAreaData(
-                                                show: true,
-                                                gradient: LinearGradient(
-                                                  begin: Alignment.topCenter,
-                                                  end: Alignment.bottomCenter,
-                                                  colors: gradientColors3
-                                                      .map(
-                                                        (color) => color
-                                                            .withOpacity(.8),
-                                                      )
-                                                      .toList(),
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 10, 0),
+                                      child: FutureBuilder<dynamic>(
+                                        future: CryptoController()
+                                            .prediction(widget.cryptoname),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Container(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.04,
+                                                decoration: BoxDecoration(
+                                                  gradient: bgGradient(
+                                                      snapshot.data.toString()),
+                                                  border: Border.all(
+                                                      color:
+                                                          Colors.transparent),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  boxShadow: boxShadow(
+                                                      snapshot.data.toString()),
                                                 ),
-                                              )),
-                                          LineChartBarData(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.3,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  snapshot.data.toString(),
+                                                  style: const TextStyle(
+                                                      color: Colors.white),
+                                                ));
+                                            ;
+                                          } else if (snapshot.hasError) {
+                                            return Text(
+                                                'Error: ${snapshot.error}');
+                                          }
+                                          return const Text("");
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: MediaQuery.of(context).size.height * .5,
+                                padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                child: Container(
+                                  margin: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xff03045e),
+                                    border:
+                                        Border.all(color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.white,
+                                        offset: Offset(
+                                          -3.0,
+                                          -3.0,
+                                        ),
+                                        blurRadius: 5.0,
+                                        spreadRadius: 0.8,
+                                      ),
+                                      BoxShadow(
+                                        color: Color(0xff0077b6),
+                                        offset: Offset(
+                                          3.0,
+                                          3.0,
+                                        ),
+                                        blurRadius: 5.0,
+                                        spreadRadius: 0.8,
+                                      ),
+                                    ],
+                                  ),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 20, 10, 30),
+                                  width: double.infinity,
+                                  height:
+                                      MediaQuery.of(context).size.height * .3,
+                                  child: LineChart(
+                                    LineChartData(
+                                      minX: 0,
+                                      // maxX: 40,
+                                      minY: minimumpreds < minimumprice
+                                          ? minimumpreds -
+                                              (minimumpreds * (2 / 100))
+                                          : minimumprice -
+                                              (minimumprice * (2 / 100)),
+                                      gridData: FlGridData(
+                                        drawHorizontalLine: true,
+                                        show: true,
+                                      ),
+                                      borderData: FlBorderData(
+                                        show: true,
+                                        border: const Border(
+                                          top: BorderSide.none,
+                                          right: BorderSide.none,
+                                          left: BorderSide.none,
+                                          bottom: BorderSide.none,
+                                        ),
+                                      ),
+                                      lineBarsData: [
+                                        LineChartBarData(
                                             dotData: FlDotData(
                                               show: false,
                                             ),
-                                            spots: predsdata,
+                                            spots: pricedata,
                                             isCurved: true,
                                             barWidth: 2,
                                             gradient: LinearGradient(
-                                                colors: gradientColors2),
+                                                colors: gradientColors),
                                             belowBarData: BarAreaData(
                                               show: true,
                                               gradient: LinearGradient(
                                                 begin: Alignment.topCenter,
                                                 end: Alignment.bottomCenter,
-                                                colors: gradientColors4
-                                                    .map((color) =>
-                                                        color.withOpacity(.5))
+                                                colors: gradientColors3
+                                                    .map(
+                                                      (color) =>
+                                                          color.withOpacity(.8),
+                                                    )
                                                     .toList(),
                                               ),
-                                            ),
-                                          )
-                                        ],
-                                        titlesData: FlTitlesData(
-                                          rightTitles: AxisTitles(
-                                              sideTitles: SideTitles(
-                                                  showTitles: false)),
-                                          topTitles: AxisTitles(
-                                              sideTitles: SideTitles(
-                                                  showTitles: false)),
-                                          leftTitles: AxisTitles(
-                                              sideTitles: leftTitles),
-                                          bottomTitles: AxisTitles(
-                                            sideTitles: bottomTitles,
+                                            )),
+                                        LineChartBarData(
+                                          dotData: FlDotData(
+                                            show: false,
                                           ),
+                                          spots: predsdata,
+                                          isCurved: true,
+                                          barWidth: 2,
+                                          gradient: LinearGradient(
+                                              colors: gradientColors2),
+                                          belowBarData: BarAreaData(
+                                            show: true,
+                                            gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: gradientColors4
+                                                  .map((color) =>
+                                                      color.withOpacity(.5))
+                                                  .toList(),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                      titlesData: FlTitlesData(
+                                        rightTitles: AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                        topTitles: AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                        leftTitles:
+                                            AxisTitles(sideTitles: leftTitles),
+                                        bottomTitles: AxisTitles(
+                                          sideTitles: bottomTitles,
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 10,
-                                      width: 10,
-                                      color: Color.fromARGB(255, 0, 255, 208),
-                                    ),
-                                    const Text(
-                                      'Actual',
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.white),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Container(
-                                      height: 10,
-                                      width: 10,
-                                      color: Color.fromARGB(255, 238, 0, 255),
-                                    ),
-                                    const Text(
-                                      'Prediction',
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.white),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                  alignment: Alignment.topLeft,
-                                  child: const Text(
-                                    'Market data',
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: Color.fromARGB(255, 0, 255, 208),
+                                  ),
+                                  const Text(
+                                    'Actual',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                        color: Colors.white),
+                                        fontSize: 15, color: Colors.white),
                                   ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: Color.fromARGB(255, 238, 0, 255),
+                                  ),
+                                  const Text(
+                                    'Prediction',
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.white),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  'Market data',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      color: Colors.white),
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.45,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              'Change percent',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.white),
-                                            ),
-                                            Text(
-                                              double.parse(apidata['data']
-                                                          ['changePercent24Hr'])
-                                                      .toStringAsFixed(2) +
-                                                  '%',
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Column(
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.45,
+                                      child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           const Text(
-                                            'Market cap',
+                                            'Change percent',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white),
+                                          ),
+                                          Text(
+                                            double.parse(apidata['data']
+                                                        ['changePercent24Hr'])
+                                                    .toStringAsFixed(2) +
+                                                '%',
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Market cap',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        ),
+                                        Text(
+                                          '\$' +
+                                              double.parse(apidata['data']
+                                                      ['marketCapUsd'])
+                                                  .toStringAsFixed(2),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.45,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Volume',
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 color: Colors.white),
@@ -588,7 +612,7 @@ class _MarketState extends State<Market> {
                                           Text(
                                             '\$' +
                                                 double.parse(apidata['data']
-                                                        ['marketCapUsd'])
+                                                        ['volumeUsd24Hr'])
                                                     .toStringAsFixed(2),
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -596,75 +620,40 @@ class _MarketState extends State<Market> {
                                                 color: Colors.white),
                                           ),
                                         ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.45,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              'Volume',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.white),
-                                            ),
-                                            Text(
-                                              '\$' +
-                                                  double.parse(apidata['data']
-                                                          ['volumeUsd24Hr'])
-                                                      .toStringAsFixed(2),
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
                                       ),
-                                      SizedBox(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              'Supply',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.white),
-                                            ),
-                                            Text(
-                                              '\$' +
-                                                  double.parse(apidata['data']
-                                                          ['supply'])
-                                                      .toStringAsFixed(2),
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                                    ),
+                                    SizedBox(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Supply',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white),
+                                          ),
+                                          Text(
+                                            '\$' +
+                                                double.parse(apidata['data']
+                                                        ['supply'])
+                                                    .toStringAsFixed(2),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
