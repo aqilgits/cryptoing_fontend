@@ -8,13 +8,13 @@ class CryptoController with ChangeNotifier {
   late Future prices;
   late Future preds;
   final url =
-      'http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/crypto';
+      'http://ec2-54-169-98-7.ap-southeast-1.compute.amazonaws.com/crypto';
   Future<List> getCryptoPrice(String cryptoName) async {
     List price = [];
     dynamic response;
     try {
       response = await http.get(Uri.parse(
-          'http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/crypto/$cryptoName'));
+          'http://ec2-54-169-98-7.ap-southeast-1.compute.amazonaws.com/crypto/$cryptoName'));
       Future<List> fetchPrice() async {
         List<double> price = [];
         for (var i = 0; i < 75; i++) {
@@ -37,7 +37,7 @@ class CryptoController with ChangeNotifier {
     dynamic response;
     try {
       response = await http.get(Uri.parse(
-          'http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/crypto/$cryptoName'));
+          'http://ec2-54-169-98-7.ap-southeast-1.compute.amazonaws.com/crypto/$cryptoName'));
 
       Future<List> fetchPreds() async {
         List<double> preds = [];
@@ -61,7 +61,7 @@ class CryptoController with ChangeNotifier {
     dynamic response;
     try {
       response = await http.get(Uri.parse(
-          'http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/crypto/$cryptoName'));
+          'http://ec2-54-169-98-7.ap-southeast-1.compute.amazonaws.com/crypto/$cryptoName'));
 
       Future<List> fetchNum() async {
         List<int> num = [];

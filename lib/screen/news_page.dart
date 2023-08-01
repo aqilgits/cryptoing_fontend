@@ -39,13 +39,13 @@ class _NewsState extends State<News> {
     });
 
     String url =
-        "http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/news";
+        "http://ec2-54-169-98-7.ap-southeast-1.compute.amazonaws.com/news";
 
     Response response = await dio.get(url);
     apidata = response.data; //get JSON decoded data from response
 
     String url2 =
-        "http://ec2-13-250-99-75.ap-southeast-1.compute.amazonaws.com/news/percentage";
+        "http://ec2-54-169-98-7.ap-southeast-1.compute.amazonaws.com/news/percentage";
 
     Response response2 = await dio.get(url2);
     apidata2 = response2.data; //get JSON decoded data from response
